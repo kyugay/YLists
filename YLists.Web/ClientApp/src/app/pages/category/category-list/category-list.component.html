@@ -1,0 +1,12 @@
+<div class="action-button-list">
+	<button kendoButton (click)="addEntity()" icon="plus" class="action-button">Add entity</button>
+</div>
+
+<ul *ngIf="entities$ | async; let entities" class="entity-list">
+	<li *ngFor="let entity of entities" (click)="routeToEntity(entity.id)" class="entity-list-item">
+		<kendo-icon name="file-ascx" size="xlarge" themeColor="primary" style="align-self: center; padding: 20px 0;"></kendo-icon>
+		<h3 class="entity-title">
+			<span>{{entity.name}}</span>
+		</h3>
+	</li>
+</ul>

@@ -1,0 +1,33 @@
+<div class="field-options-wrapper">
+	<div class="field-options-listbox">
+		<header class="field-options-listbox-header">
+			<button kendoButton (click)="showAddFieldOptionCollectionModal()" icon="plus-outline">Add collection</button>
+		</header>
+		<kendo-listbox
+			[data]="fieldOptionCollections"
+			textField="name"
+			(selectionChange)="fieldOptionCollectionSelectionChange($event)"
+			[toolbar]="false"
+		>
+			<ng-template kendoListBoxItemTemplate let-dataItem>
+				<span>{{ dataItem.name }}</span>
+				<button kendoButton (click)="deleteFieldOption(dataItem)" icon="delete" look="outline"></button>
+			</ng-template>
+		</kendo-listbox>
+	</div>
+	<div class="field-options-listbox">
+		<header class="field-options-listbox-header">
+			<button kendoButton (click)="showAddFieldOptionModal()" icon="edit">Add option</button>
+		</header>
+		<kendo-listbox
+			[data]="selectedFieldOptionCollection?.fieldOptions"
+			textField="value"
+			[toolbar]="false"
+		>
+			<ng-template kendoListBoxItemTemplate let-dataItem>
+				<span>{{ dataItem.value }}</span>
+				<button kendoButton (click)="deleteFieldOption(dataItem)" icon="delete" look="outline"></button>
+			</ng-template>
+		</kendo-listbox>
+	</div>
+</div>

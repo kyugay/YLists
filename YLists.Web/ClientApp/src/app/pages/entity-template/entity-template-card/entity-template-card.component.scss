@@ -1,0 +1,130 @@
+@import "../../../../assets/styles/variables.scss";
+
+.template-card-container {
+	padding: 50px;
+	border-radius: 10px;
+	margin-top: 50px;
+	background-color: $color-black-12-depth;
+
+	.template-card-form {
+
+		header.template-card-header {
+			display: flex;
+			justify-content: space-between;
+
+			.template-name {
+				width: 100%;
+				padding-right: 5rem;
+				align-self: center;
+
+				h2 {
+					margin-right: 50px;
+					font-weight: 600;
+					font-size: 1.75em;
+					line-height: 150%;
+				}
+			}
+
+			.card-action-buttons {
+				display: flex;
+
+				button {
+					width: 50px;
+					height: 50px;
+					border-radius: 100%;
+					margin-right: 20px;
+
+					.k-icon {
+						font-size: 25px;
+					}
+				}
+
+				button:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+
+		.block-header-wrapper {
+			display: flex;
+			
+			.block-header-action-buttons {
+				margin-left: auto;
+		
+				display: flex;
+		
+				button {
+					border-radius: 100%;
+					margin-right: 10px;
+				}
+		
+				button:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+		
+		.block-header-wrapper > * {
+			margin-right: 10px;
+		}
+		
+		.block-header-wrapper > *:last-child {
+			margin-right: 0;
+		}
+
+		.block-body-wrapper {
+			padding-left: 15px;
+			height: 100%;
+			overflow-y: scroll;
+
+			.field-list {
+				list-style: none;
+				display: flex;
+				flex-direction: column;
+		
+				padding: 0;
+				padding-right: 8px;
+		
+				.field-list-item {
+					display: flex;
+					flex-direction: column;
+		
+					.field-list-item-header {
+						display: flex;
+		
+						.block-body-action-buttons {
+							margin-left: auto;
+					
+							display: flex;
+					
+							button {
+								border-radius: 100%;
+								margin-right: 10px;
+							}
+					
+							button:last-child {
+								margin-right: 0;
+							}
+						}
+					}
+				}
+				
+				.field-list-item > * {
+					margin-bottom: 10px;
+				}
+		
+				.field-list-item > *:last-child {
+					margin-bottom: 0;
+				}
+			}
+		
+			.field-list > * {
+				margin-bottom: 20px;
+			}
+		
+			.field-list > *:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+}

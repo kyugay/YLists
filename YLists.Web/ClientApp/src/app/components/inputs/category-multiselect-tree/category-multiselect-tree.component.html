@@ -1,0 +1,28 @@
+<kendo-multiselecttree
+	#multiselecttree
+	kendoMultiSelectTreeExpandable
+	[kendoMultiSelectTreeHierarchyBinding]="items"
+	[(value)]="value"
+	(valueChange)="onValueChange($event)"
+	valueField="id"
+	textField="name"
+	childrenField="children"
+	[expandedKeys]="['0']"
+	[checkableSettings]="checkableSettings"
+	[loading]="isLoading"
+	[popupSettings]="{ popupClass: 'multiselect-tree-popup' }"
+	class="w-100"
+>
+	<ng-template kendoMultiSelectTreeHeaderTemplate>
+		<button kendoButton (click)="showAddCategoryModal()" icon="plus-outline">Add</button>
+	</ng-template>
+	<ng-template kendoMultiSelectTreeNodeTemplate let-dataItem>
+		<div class="multiselect-tree-item w-100">
+			<span>{{ dataItem.name }}</span>
+			<div class="item-actions">
+				<button kendoButton (click)="showAddCategoryModal(dataItem.id)" icon="plus-outline" look="outline"></button>
+				<button kendoButton (click)="showDeleteCategoryModal(dataItem.id)" icon="delete" look="outline"></button>
+			</div>
+		</div>
+	</ng-template>
+</kendo-multiselecttree>

@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YLists.Web", "YLists.Web\YLists.Web.csproj", "{3548E6C3-AB97-41CE-8297-D5A6DE4A9C23}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YLists.BL", "YLists.BL\YLists.BL.csproj", "{2A515C61-3AA1-4EE7-9CB5-3FD86585DFE7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YLists.DAL", "YLists.DAL\YLists.DAL.csproj", "{F63B6C32-F15B-423D-8024-E0DA119565F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A71090F-1B75-43C7-80F1-557AB52C6C1D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "YLists.Categorization", "YLists.Categorization", "{8031EF9F-414F-4C4B-9551-75151147CA63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YLists.Categorization.Client", "YLists.Categorization\YLists.Categorization.Client\YLists.Categorization.Client.csproj", "{037E462A-144C-4B2B-A5CA-EABE43860029}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "YLists.Categorization.Server", "YLists.Categorization\YLists.Categorization.Server\YLists.Categorization.Server.pyproj", "{68B969CD-4648-475A-B075-D5EBA3447EA8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3548E6C3-AB97-41CE-8297-D5A6DE4A9C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3548E6C3-AB97-41CE-8297-D5A6DE4A9C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3548E6C3-AB97-41CE-8297-D5A6DE4A9C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3548E6C3-AB97-41CE-8297-D5A6DE4A9C23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A515C61-3AA1-4EE7-9CB5-3FD86585DFE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A515C61-3AA1-4EE7-9CB5-3FD86585DFE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A515C61-3AA1-4EE7-9CB5-3FD86585DFE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A515C61-3AA1-4EE7-9CB5-3FD86585DFE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F63B6C32-F15B-423D-8024-E0DA119565F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F63B6C32-F15B-423D-8024-E0DA119565F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F63B6C32-F15B-423D-8024-E0DA119565F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F63B6C32-F15B-423D-8024-E0DA119565F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{037E462A-144C-4B2B-A5CA-EABE43860029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{037E462A-144C-4B2B-A5CA-EABE43860029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{037E462A-144C-4B2B-A5CA-EABE43860029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{037E462A-144C-4B2B-A5CA-EABE43860029}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B969CD-4648-475A-B075-D5EBA3447EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B969CD-4648-475A-B075-D5EBA3447EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{037E462A-144C-4B2B-A5CA-EABE43860029} = {8031EF9F-414F-4C4B-9551-75151147CA63}
+		{68B969CD-4648-475A-B075-D5EBA3447EA8} = {8031EF9F-414F-4C4B-9551-75151147CA63}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B9B7BB1-9FF8-4B41-9E13-237562DD1A91}
+	EndGlobalSection
+EndGlobal

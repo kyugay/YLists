@@ -1,0 +1,39 @@
+@import "../../../../assets/styles/variables.scss";
+
+.sign-in-container {
+	width: 250px;
+	padding: 50px;
+	border-radius: 10px;
+	margin: 50px auto 0;
+	background-color: $color-black-12-depth;
+
+	.sign-in-form {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+
+		legend {
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		.horizontal-formfield {
+			display: flex;
+			align-items: baseline;
+			gap: 20px;
+		}
+
+		.formfield-label {
+			font-size: 14px;
+		}
+
+		.action-button {
+			align-self: center;
+			width: 120px;
+			margin-top: 10px;
+			border-radius: 5px;
+			font-size: 16px;
+			font-weight: bold;
+		}
+	}
+}

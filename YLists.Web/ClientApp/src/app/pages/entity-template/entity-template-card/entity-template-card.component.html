@@ -1,0 +1,106 @@
+<div class="template-card-container">
+	<form [formGroup]="templateForm" class="template-card-form">
+		<header class="template-card-header">
+			<div class="template-name">
+				<h2 *ngIf="!isEdit">{{ templateForm.value.name }}</h2>
+				<kendo-formfield *ngIf="isEdit">
+					<kendo-textbox
+						formControlName="name"
+						placeholder="Name"
+						class="w-100"
+					></kendo-textbox>
+					<kendo-formerror *ngIf="isSubmitted && templateForm.controls.name.errors?.required">Name is required</kendo-formerror>
+				</kendo-formfield>
+			</div>
+			<div class="card-action-buttons">
+				<button kendoButton *ngIf="isEdit" (click)="addFormBlockMetadata()" icon="plus"></button>
+				<button kendoButton *ngIf="isEdit" (click)="saveTemplate()" icon="save"></button>
+				<button kendoButton *ngIf="isEdit" (click)="deleteTemplate()" icon="delete"></button>
+				<button kendoButton *ngIf="!isNew" [toggleable]="true" [(selected)]="isEdit" icon="edit"></button>
+				<button kendoButton *ngIf="!isEdit" (click)="closeCard()" icon="close"></button>
+			</div>
+		</header>
+
+		
+		<kendo-tilelayout
+			formArrayName="blocksMetadata"
+			[columns]="templateForm.value.columns"
+			[rowHeight]="255"
+			[resizable]="isEdit"
+			[reorderable]="isEdit"
+			(reorder)="onBlockReorder($event)"
+			(resize)="onBlockResize($event)"
+			autoFlow="row-dense"
+		>
+			<kendo-tilelayout-item
+				*ngFor="let block of templateForm.controls.blocksMetadata['controls']; let i = index"
+				[formGroupName]="i"
+				[order]="block.value.order"
+				[rowSpan]="block.value.rowSpan"
+				[colSpan]="block.value.columnSpan"
+			>
+				<kendo-tilelayout-item-header>
+					<div class="block-header-wrapper">
+						<h3 *ngIf="!isEdit">{{ block.value.title }}</h3>
+						<kendo-formfield *ngIf="isEdit">
+							<kendo-textbox #blockTitle formControlName="title" placeholder="Title" class="w-100" (click)="blockTitle.focus()"></kendo-textbox>
+						</kendo-formfield>
+						<div class="block-header-action-buttons" *ngIf="isEdit">
+							<button kendoButton (click)="addFormFieldMetadata(block)" icon="plus"></button>
+							<button kendoButton (click)="deleteFormBlockMetadata(block)" icon="delete"></button>
+						</div>
+					</div>
+				</kendo-tilelayout-item-header>
+					
+				<kendo-tilelayout-item-body>
+					<div class="block-body-wrapper">
+						<ol formArrayName="fieldsMetadata" class="field-list">
+							<li
+								*ngFor="let field of block.controls.fieldsMetadata['controls']; let i = index"
+								[formGroupName]="i"
+								class="field-list-item"
+								[style.order]="field.value.order"
+							>
+								<header class="field-list-item-header">
+									<label *ngIf="!isEdit">{{ field.value.label }}</label>
+										
+									<kendo-formfield *ngIf="isEdit">
+										<kendo-textbox *ngIf="isEdit" #fieldLabel formControlName="label" placeholder="Label" class="w-100" (click)="fieldLabel.focus()"></kendo-textbox>
+									</kendo-formfield>
+					
+									<div class="block-body-action-buttons">
+										<button kendoButton *ngIf="isEdit" (click)="deleteFormFieldMetadata(block, field)" icon="delete"></button>
+									</div>
+								</header>
+					
+								<kendo-combobox
+									formControlName="type"
+									[data]="fieldTypeSelect"
+									textField="text"
+									valueField="value"
+									[valuePrimitive]="true"
+									class="w-100"
+								></kendo-combobox>
+
+								<field-options-combobox *ngIf="fieldTypeWithOptions[field.value.type]" formControlName="fieldOptionCollectionId"></field-options-combobox>
+							</li>
+						</ol>
+					</div>
+				</kendo-tilelayout-item-body>
+			</kendo-tilelayout-item>
+	
+			<!-- <kendo-tilelayout-item
+				[order]="templateForm.controls.blocksMetadata['controls'].length + 1"
+				[rowSpan]="1"
+				[colSpan]="1"
+				[resizable]="false"
+				[reorderable]="false"
+				(click)="addFormBlockMetadata()"
+			>
+				<kendo-tilelayout-item-body>
+					<p>Add</p>
+				</kendo-tilelayout-item-body>
+			</kendo-tilelayout-item> -->
+		</kendo-tilelayout>
+	</form>
+</div>

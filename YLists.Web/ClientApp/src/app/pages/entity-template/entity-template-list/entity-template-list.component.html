@@ -1,0 +1,12 @@
+<div class="action-button-list">
+	<button kendoButton (click)="addTemplate()" icon="plus" class="action-button">Add template</button>
+</div>
+
+<ul *ngIf="templates$ | async; let templates" class="template-list">
+	<li *ngFor="let template of templates" (click)="routeToTemplate(template.id)" class="template-list-item">
+		<kendo-icon name="file-programming" size="xlarge" themeColor="primary" style="align-self: center; padding: 20px 0;"></kendo-icon>
+		<h3 class="template-title">
+			<span>{{template.name}}</span>
+		</h3>
+	</li>
+</ul>

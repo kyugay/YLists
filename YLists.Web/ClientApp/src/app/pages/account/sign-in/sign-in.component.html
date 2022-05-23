@@ -1,0 +1,22 @@
+<div class="sign-in-container">
+	<form [formGroup]="signInForm" class="sign-in-form">
+		<legend>Авторизация</legend>
+		<kendo-formfield *ngVar="signInForm.controls.login; let formItem">
+			<kendo-floatinglabel text="Логин" class="w-100">
+				<kendo-textbox formControlName="login" class="w-100"></kendo-textbox>
+				<kendo-formerror *ngIf="isSubmitted && formItem.errors?.required">Обязательное поле</kendo-formerror>
+			</kendo-floatinglabel>
+		</kendo-formfield>
+		<kendo-formfield *ngVar="signInForm.controls.password; let formItem">
+			<kendo-floatinglabel text="Пароль" class="w-100">
+				<input kendoTextBox type="password" formControlName="password" class="w-100"/>
+				<kendo-formerror *ngIf="isSubmitted && formItem.errors?.required">Обязательное поле</kendo-formerror>
+			</kendo-floatinglabel>
+		</kendo-formfield>
+		<kendo-formfield *ngVar="signInForm.controls.rememberMe; let formItem" class="horizontal-formfield">
+			<kendo-label [for]="rememberMe" text="Запомнить меня:" class="formfield-label"></kendo-label>
+			<kendo-switch formControlName="rememberMe" onLabel="Да" offLabel="Нет" #rememberMe></kendo-switch>
+		</kendo-formfield>
+		<button kendoButton (click)="submit()" class="action-button">Вход</button>
+	</form>
+</div>

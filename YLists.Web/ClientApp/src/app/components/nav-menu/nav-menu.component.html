@@ -1,0 +1,13 @@
+<kendo-drawer-container>
+	<kendo-drawer [items]="items" mode="overlay" [mini]="true" [miniWidth]="80" class="nav-menu">
+		<ng-template kendoDrawerItemTemplate let-item>
+			<div [routerLink]="item.path">
+				<kendo-icon class="nav-item-icon" [name]="item.icon"></kendo-icon>
+			</div>
+		</ng-template>
+	</kendo-drawer>
+
+	<kendo-drawer-content>
+		<ng-content></ng-content>
+	</kendo-drawer-content>
+</kendo-drawer-container>

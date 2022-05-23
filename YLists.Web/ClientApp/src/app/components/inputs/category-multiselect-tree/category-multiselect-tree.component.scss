@@ -1,0 +1,25 @@
+.multiselect-tree-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.item-actions {
+		display: flex;
+
+		button {
+			margin-right: 0.5rem;
+			border-radius: 2px;
+			border-width: 1px;
+			display: flex;
+			justify-content: center;
+
+			.k-icon {
+				margin: 0;
+			}
+		}
+
+		button:last-child {
+			margin-right: 0;
+		}
+	}
+}

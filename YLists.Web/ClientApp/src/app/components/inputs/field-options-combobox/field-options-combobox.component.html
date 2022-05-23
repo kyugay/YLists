@@ -1,0 +1,19 @@
+<kendo-combobox
+	#combobox
+	[(ngModel)]="value"
+	(valueChange)="onChange($event)"
+	[data]="items$ | async"
+	valueField="id"
+	textField="name"
+	[valuePrimitive]="true"
+	[filterable]="true"
+	[virtual]="virtual"
+	[loading]="isLoading"
+	[disabled]="disabled"
+	placeholder="Select options"
+	class="w-100"
+>
+	<ng-template kendoComboBoxHeaderTemplate>
+		<button kendoButton (click)="showEditFieldOptionsModal()" icon="edit">Edit</button>
+	</ng-template>
+</kendo-combobox>

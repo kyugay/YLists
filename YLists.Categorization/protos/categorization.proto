@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "YLists.Categorization.Client.Generated";
+
+service Categorization
+{
+  rpc Train (TrainRequest) returns (TrainResponse) { }
+}
+
+message TrainRequest
+{
+    message Item
+    {
+        string categoryName = 1;
+        string entityName = 2;
+    }
+
+    string templateId = 1;
+    repeated Item items = 2;
+}
+
+message TrainResponse
+{
+    string message = 1;
+}

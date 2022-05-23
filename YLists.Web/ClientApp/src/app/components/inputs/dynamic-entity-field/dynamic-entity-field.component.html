@@ -1,0 +1,66 @@
+<ng-container [ngSwitch]="fieldType">
+	<!-- TextBox -->
+	<ng-template ngSwitchCase="0">
+		<kendo-textbox [(ngModel)]="stringValue" class="w-100"></kendo-textbox>
+	</ng-template>
+	<!-- TextArea -->
+	<ng-template ngSwitchCase="1">
+		<kendo-textarea [(ngModel)]="stringValue" resizable="auto" class="w-100"></kendo-textarea>
+	</ng-template>
+	<!-- NumericTextBox -->
+	<ng-template ngSwitchCase="2">
+		<kendo-numerictextbox [(ngModel)]="numberValue" class="w-100"></kendo-numerictextbox>
+	</ng-template>
+	<!-- DatePicker -->
+	<ng-template ngSwitchCase="3">
+		<kendo-datepicker [(value)]="dateValue" format="dd.MM.yyyy" placeholder="" class="w-100"></kendo-datepicker>
+	</ng-template>
+	<!-- TimePicker -->
+	<ng-template ngSwitchCase="4">
+		<kendo-timepicker [(ngModel)]="dateValue" class="w-100"></kendo-timepicker>
+	</ng-template>
+	<!-- Switch -->
+	<ng-template ngSwitchCase="5">
+		<kendo-switch [(ngModel)]="booleanValue"></kendo-switch>
+	</ng-template>
+	<!-- RadioButtons -->
+	<ng-template ngSwitchCase="6">
+		<ul class="k-radio-list">
+			<li *ngFor="let option of fieldOptions" class="k-radio-item">
+				<kendo-label [for]="radioOption" [text]="option.value" class="k-radio-label"></kendo-label>
+				<input kendoRadioButton type="radio" #radioOption [(ngModel)]="stringValue" [value]="option.value"/>
+			</li>
+		</ul>
+	</ng-template>
+	<!-- CheckBoxes -->
+	<ng-template ngSwitchCase="7">
+		<!-- ============ Custom input ============ -->
+	</ng-template>
+	<!-- ComboBox -->
+	<ng-template ngSwitchCase="8">
+		<kendo-combobox
+			[(ngModel)]="stringValue"
+			[data]="fieldOptions"
+			textField="value"
+			valueField="id"
+			[valuePrimitive]="true"
+			[kendoDropDownFilter]="{ operator: 'contains' }"
+			class="w-100"
+		></kendo-combobox>
+	</ng-template>
+	<!-- MultiSelect -->
+	<ng-template ngSwitchCase="9">
+		<!-- ============ Custom input ============ -->
+	</ng-template>
+	<!-- ItemCover -->
+	<ng-template ngSwitchCase="10">
+		<!-- ============ Custom input ============ -->
+	</ng-template>
+	<!-- CompleteSwitch -->
+	<ng-template ngSwitchCase="11">
+		<kendo-switch [(ngModel)]="booleanValue" onLabel="Yes" offLabel="No"></kendo-switch>
+	</ng-template>
+	<ng-template ngSwitchDefault>
+		<kendo-textbox [(ngModel)]="stringValue" placeholder="Value" class="w-100"></kendo-textbox>
+	</ng-template>
+</ng-container>

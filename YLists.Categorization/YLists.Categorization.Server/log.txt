@@ -1,0 +1,27 @@
+INFO:root:Starting server...
+INFO:root:serving on port 50550
+ERROR:grpc._server:Exception calling application: Protocol message TrainResponse has no "tag" field.
+Traceback (most recent call last):
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 15, in Train
+    return categorization_pb2.TrainResponse(tag = 'hello')
+ValueError: Protocol message TrainResponse has no "tag" field.
+ERROR:grpc._server:Exception calling application: Protocol message TrainResponse has no "tag" field.
+Traceback (most recent call last):
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 15, in Train
+    return categorization_pb2.TrainResponse(tag = 'hello')
+ValueError: Protocol message TrainResponse has no "tag" field.
+INFO:root:Starting server...
+INFO:root:serving on port 50550
+ERROR:grpc._server:Exception calling application: Protocol message TrainResponse has no "tag" field.
+Traceback (most recent call last):
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 15, in Train
+    return categorization_pb2.TrainResponse(message = 'hello')
+ValueError: Protocol message TrainResponse has no "tag" field.
+INFO:root:Starting server...
+INFO:root:serving on port 50550

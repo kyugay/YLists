@@ -1,0 +1,34 @@
+<div class="sign-up-container">
+	<form [formGroup]="signUpForm" class="sign-up-form">
+		<legend>Регистрация</legend>
+		<kendo-formfield *ngVar="signUpForm.controls.login; let formItem">
+			<kendo-floatinglabel text="Логин" class="w-100">
+				<kendo-textbox formControlName="login" class="w-100"></kendo-textbox>
+				<kendo-formerror *ngIf="isSubmitted && formItem.errors?.required">Заполните логин</kendo-formerror>
+				<kendo-formerror *ngIf="isSubmitted && !formItem.errors?.required && formItem.errors?.minlength">Логин должен содержать не менее 3х символов</kendo-formerror>
+			</kendo-floatinglabel>
+		</kendo-formfield>
+		<kendo-formfield *ngVar="signUpForm.controls.email; let formItem">
+			<kendo-floatinglabel text="Почта" class="w-100">
+				<input kendoTextBox type="email" formControlName="email" class="w-100"/>
+				<kendo-formerror *ngIf="isSubmitted && formItem.errors?.required">Заполните почту</kendo-formerror>
+				<kendo-formerror *ngIf="isSubmitted && formItem.errors?.email">Введите корректную почту</kendo-formerror>
+			</kendo-floatinglabel>
+		</kendo-formfield>
+		<kendo-formfield *ngVar="signUpForm.controls.password; let formItem">
+			<kendo-floatinglabel text="Пароль" class="w-100">
+				<input kendoTextBox type="password" formControlName="password" class="w-100"/>
+				<kendo-formerror *ngIf="isSubmitted && formItem.errors?.required">Введите пароль</kendo-formerror>
+				<kendo-formerror *ngIf="isSubmitted && !formItem.errors?.required && (formItem.errors?.minlength || formItem.errors?.password)">Пароль должен содержать не менее 8 символов, буквы и цифры</kendo-formerror>
+			</kendo-floatinglabel>
+		</kendo-formfield>
+		<kendo-formfield *ngVar="signUpForm.controls.passwordConfirm; let formItem">
+			<kendo-floatinglabel text="Повторите пароль" class="w-100">
+				<input kendoTextBox type="password" formControlName="passwordConfirm" class="w-100"/>
+				<kendo-formerror *ngIf="isSubmitted && formItem.errors?.required">Введите пароль еще раз</kendo-formerror>
+				<kendo-formerror *ngIf="isSubmitted && !formItem.errors?.required && formItem.errors?.passwordConfirm">Пароли не совпадают</kendo-formerror>
+			</kendo-floatinglabel>
+		</kendo-formfield>
+		<button kendoButton (click)="submit()" class="action-button">Регистрация</button>
+	</form>
+</div>

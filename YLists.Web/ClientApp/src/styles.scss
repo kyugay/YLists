@@ -1,0 +1,118 @@
+﻿@import "./assets/styles/variables.scss";
+
+/* kendo ui */
+$is-dark-theme: true;
+$primary: $color-primary;
+$base-bg: $color-black-12-depth;
+$component-bg: $color-black-12-depth;
+$button-bg: $color-black-24-depth;
+$checkbox-bg: $color-black-24-depth;
+
+$base-border: rgba( white, .08 );
+$component-border: rgba( white, .08 );
+$button-border: rgba( white, .08 );
+
+$body-text: #ffffff;
+$placeholder-text: #959595;
+$button-text: $color-primary;
+
+$focused-shadow: inset 0 0 0 2px rgba(white, .13);
+$switch-container-focused-shadow: inset 0 0 0 3px rgba( white, .06) !default;
+
+@import "~@progress/kendo-theme-default/dist/all.scss";
+
+.k-drawer-item {
+	padding: 0;
+	color: $primary;
+}
+
+.k-drawer-item.k-state-hover, .k-drawer-item:hover {
+	color: $primary;
+}
+
+.k-drawer-item.k-state-selected {
+	color: white;
+}
+
+.k-combobox,
+.k-multiselect {
+	.k-icon.k-clear-value {
+		color: $primary;
+	}
+}
+
+.k-combobox {
+	.k-state-focused,
+	.k-state-hover,
+	.k-dropdown-wrap:hover {
+		.k-select {
+			background-color: $primary;
+			color: white;
+		}
+	}
+}
+
+.multiselect-tree-popup .k-treeview .k-in {
+    width: 100%;
+}
+
+.k-dropdown .k-input {
+	color: white;
+}
+
+.k-tilelayout {
+	.k-tilelayout-item {
+		.k-tilelayout-item-body {
+			padding: 0;
+		}
+	}
+}
+
+/* Atomic CSS */
+
+.w-25 {
+	width: 23%;
+}
+
+.w-50 {
+	width: 50%;
+}
+
+.w-75 {
+	width: 75%;
+}
+
+.w-100 {
+	width: 100%;
+}
+
+/* scrolls */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: $primary $color-black-06-depth;
+}
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+::-webkit-scrollbar-track {
+	background-color: $color-black-16-depth;
+}
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-corner {
+	background-color: $primary;
+}
+
+body {
+	background-color: $color-black-06-depth;
+	font-family: Raleway;
+	font-style: normal;
+	color: white;
+}
+
+body,
+ul,
+h1, h2, h3 {
+	margin: 0;
+	padding: 0;
+}

@@ -1,0 +1,86 @@
+<div class="entity-card-container">
+	<form [formGroup]="entityForm" class="entity-card-form">
+		<header class="entity-card-header">
+			<div class="entity-name">
+				<h2 *ngIf="!isEdit">{{ entityForm.value.name }}</h2>
+				<kendo-formfield *ngIf="isEdit">
+					<kendo-textbox
+						formControlName="name"
+						placeholder="Name"
+						class="w-100"
+					></kendo-textbox>
+					<kendo-formerror *ngIf="isSubmitted && entityForm.controls.name.errors?.required">Name is required</kendo-formerror>
+				</kendo-formfield>
+			</div>
+			<div class="entity-template-select">
+				<kendo-combobox
+					[data]="entityTemplates$ | async"
+					[value]="entityForm.value.entityTemplate"
+					textField="name"
+					valueField="id"
+					(selectionChange)="entityTemplateChange($event)"
+					placeholder="Template"
+				></kendo-combobox>
+			</div>
+			<div class="card-action-buttons">
+				<button kendoButton *ngIf="isEdit" (click)="saveEntity()" icon="save"></button>
+				<button kendoButton *ngIf="isEdit" (click)="deleteEntity()" icon="delete"></button>
+				<button kendoButton *ngIf="!isNew" [toggleable]="true" [(selected)]="isEdit" icon="edit"></button>
+				<button kendoButton *ngIf="!isEdit" (click)="closeCard()" icon="close"></button>
+			</div>
+		</header>
+
+		<ng-container *ngVar="entityForm.controls.entityTemplate; let template">
+			<ng-container *ngIf="template?.value.id" formGroupName="entityTemplate">
+				<kendo-tilelayout
+					formArrayName="blocksMetadata"
+					[columns]="template.value.columns"
+					[rowHeight]="255"
+					[resizable]="false"
+					[reorderable]="false"
+					autoFlow="row-dense"
+				>
+					<kendo-tilelayout-item
+						*ngFor="let block of template.controls.blocksMetadata['controls']; let i = index"
+						[formGroupName]="i"
+						[order]="block.value.order"
+						[rowSpan]="block.value.rowSpan"
+						[colSpan]="block.value.columnSpan"
+					>
+						<kendo-tilelayout-item-header>
+							<h3>{{ block.value.title }}</h3>
+						</kendo-tilelayout-item-header>
+							
+						<kendo-tilelayout-item-body>
+							<div class="block-body-wrapper">
+								<ol formArrayName="fieldsMetadata" class="field-list">
+									<li
+										*ngFor="let field of block.controls.fieldsMetadata['controls']; let i = index"
+										[formGroupName]="i"
+										class="field-list-item"
+										[style.order]="field.value.order"
+									>
+										<kendo-formfield>
+											<kendo-label *ngIf="field.value.label" [for]="fieldInput" [text]="field.value.label"></kendo-label>
+											<dynamic-entity-field
+												#fieldInput
+												formControlName="fieldValue"
+												[fieldType]="field.value.type"
+												[fieldOptions]="field.value.fieldOptionCollection?.fieldOptions"
+												class="w-100"
+											></dynamic-entity-field>
+										</kendo-formfield>
+									</li>
+								</ol>
+							</div>
+						</kendo-tilelayout-item-body>
+					</kendo-tilelayout-item>
+				</kendo-tilelayout>
+			</ng-container>
+		</ng-container>
+
+		<div>
+			<category-multiselect-tree [(value)]="categories"></category-multiselect-tree>
+		</div>
+	</form>
+</div>

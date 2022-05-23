@@ -1,0 +1,93 @@
+<!-- <div class="filters-wrapper">
+	<div class="filter-block">
+		<div>
+			<button #filterButton kendoButton (click)="toggleFilterPopup()" icon="filter" class="filter-button"></button>
+		</div>
+		<div class="filter-input-block">
+			<ng-container *ngFor="let filter of filterTypeList">
+				<ng-container *ngIf="filter.selected">
+					<ng-container [ngSwitch]="filter.value">
+														<ng-template [ngSwitchCase]="FilterTypeEnum.Year">
+															<kendo-daterange>
+																<kendo-floatinglabel text="Start" class="filter-input">
+																	<kendo-dateinput
+																		kendoDateRangeStartInput
+																		[(value)]="startYear"
+																		(valueChange)="onChange()"
+																	></kendo-dateinput>
+																</kendo-floatinglabel>
+																<kendo-floatinglabel text="End" class="filter-input">
+																	<kendo-dateinput
+																		kendoDateRangeEndInput
+																		[(value)]="endYear"
+																		(valueChange)="onChange()"
+																	></kendo-dateinput>
+																</kendo-floatinglabel>
+																<kendo-daterange-popup #daterangePopup></kendo-daterange-popup>
+															</kendo-daterange>
+														</ng-template>
+						<ng-template [ngSwitchCase]="FilterTypeEnum.Country">
+							<app-filter-multiselect [(value)]="filters.countries" (valueChange)="onChange()" entity="country" label="Страна" class="filter-input"></app-filter-multiselect>
+						</ng-template>
+						<ng-template [ngSwitchCase]="FilterTypeEnum.Genre">
+							<app-filter-multiselect [(value)]="filters.genres" (valueChange)="onChange()" entity="genre" label="Жанр" class="filter-input"></app-filter-multiselect>
+						</ng-template>
+						<ng-template [ngSwitchCase]="FilterTypeEnum.Producer">
+							<app-filter-multiselect [(value)]="filters.producers" (valueChange)="onChange()" entity="producer" label="Режиссер" class="filter-input"></app-filter-multiselect>
+						</ng-template>
+						<ng-template [ngSwitchCase]="FilterTypeEnum.IsViewed">
+							<kendo-floatinglabel text="Просмотрено" class="filter-input">
+								<kendo-switch
+									[(ngModel)]="filters.isViewed"
+									(valueChange)="onChange()"
+									onLabel="Да"
+									offLabel="Нет"
+								></kendo-switch>
+							</kendo-floatinglabel>
+						</ng-template>
+					</ng-container>
+				</ng-container>
+			</ng-container>
+		</div>
+	</div>
+	<div class="sort-block">
+		<label [for]="sortType" class="sort-label">Сортировать по:</label>
+		<kendo-dropdownlist
+			#sortType
+			[(ngModel)]="filters.sortType"
+			(valueChange)="onChange()"
+			[data]="sortTypeList"
+			valueField="value"
+			textField="text"
+			[valuePrimitive]="true"
+			class="sort-type-dropdown"
+		></kendo-dropdownlist>
+		<kendo-buttongroup selection="single">
+			<button
+				*ngFor="let button of sortDirectionButtons"
+				kendoButton
+				[toggleable]="true"
+				[selected]="button.selected"
+				(selectedChange)="sortDirectionChange(button.value)"
+				[icon]="button.icon"
+			></button>
+		</kendo-buttongroup>
+	</div>
+</div>
+
+<kendo-popup
+	#filterListPopup
+	*ngIf="showFilterList"
+	[anchor]="filterButtonRef"
+	(anchorViewportLeave)="showFilterList = false"
+>
+	<ul class="filter-list">
+		<li *ngFor="let filter of filterTypeList"
+			(click)="toggleFilterListItem(filter)"
+			class="filter-list-item"
+			[ngClass]="{ 'filter-list-item-selected': filter.selected }"
+		>
+			{{ filter.text }}
+		</li>
+	</ul>
+</kendo-popup> -->
