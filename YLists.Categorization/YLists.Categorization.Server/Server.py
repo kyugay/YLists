@@ -8,11 +8,45 @@ from grpc_reflection.v1alpha import reflection
 import categorization_pb2
 import categorization_pb2_grpc
 
+from model_management import model_manager
+from categorization import  categorization_manager
+
 MAX_MESSAGE_LENGTH = 16_777_216
 
 class Categorizer(categorization_pb2_grpc.CategorizationServicer):
     def Train(self, request, context):
-        return categorization_pb2.TrainResponse(message = 'hello')
+        templateId = request.templateId
+        language = request.language
+        entities = [item.name for item in request.items]
+        categories = [item.category for item in request.items]
+
+        timestamp = model_manager.train_and_save(templateId, language, entities, categories)
+
+        return categorizer_pb2.TrainResponse(timestamp=timestamp)
+    
+    def Tune(self, request, context):
+        templateId = request.templateId
+        language = request.language
+        timestamp = request.timestamp
+        entities = [item.name for item in request.items]
+        categories = [item.category for item in request.items]
+
+        timestamp = model_manager.tune_and_save(templateId, language, timestamp, entities, categories)
+
+        return categorizer_pb2.TuneResponse(timestamp=timestamp)
+
+    def Categorize(self, request, context):
+        templateId = request.templateId
+        language = request.language
+        timestamp = request.timestamp
+        entities = request.items
+
+        result = categorization_manager.categorize(templateId, language, timestamp, entities)
+
+        response_items = [categorizer_pb2.CategorizeResponse().Item(id=id, category=category, probability=probability) for id, category, probability in list(result)]
+        response = categorizer_pb2.CategorizeResponse(items=response_items)
+        
+        return response
 
 
 def serve():

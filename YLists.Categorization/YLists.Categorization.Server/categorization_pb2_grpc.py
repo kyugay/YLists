@@ -19,12 +19,34 @@ class CategorizationStub(object):
                 request_serializer=categorization__pb2.TrainRequest.SerializeToString,
                 response_deserializer=categorization__pb2.TrainResponse.FromString,
                 )
+        self.Tune = channel.unary_unary(
+                '/Categorization/Tune',
+                request_serializer=categorization__pb2.TuneRequest.SerializeToString,
+                response_deserializer=categorization__pb2.TuneResponse.FromString,
+                )
+        self.Categorize = channel.unary_unary(
+                '/Categorization/Categorize',
+                request_serializer=categorization__pb2.CategorizeRequest.SerializeToString,
+                response_deserializer=categorization__pb2.CategorizeResponse.FromString,
+                )
 
 
 class CategorizationServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Train(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Tune(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Categorize(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +59,16 @@ def add_CategorizationServicer_to_server(servicer, server):
                     servicer.Train,
                     request_deserializer=categorization__pb2.TrainRequest.FromString,
                     response_serializer=categorization__pb2.TrainResponse.SerializeToString,
+            ),
+            'Tune': grpc.unary_unary_rpc_method_handler(
+                    servicer.Tune,
+                    request_deserializer=categorization__pb2.TuneRequest.FromString,
+                    response_serializer=categorization__pb2.TuneResponse.SerializeToString,
+            ),
+            'Categorize': grpc.unary_unary_rpc_method_handler(
+                    servicer.Categorize,
+                    request_deserializer=categorization__pb2.CategorizeRequest.FromString,
+                    response_serializer=categorization__pb2.CategorizeResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +94,39 @@ class Categorization(object):
         return grpc.experimental.unary_unary(request, target, '/Categorization/Train',
             categorization__pb2.TrainRequest.SerializeToString,
             categorization__pb2.TrainResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Tune(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Categorization/Tune',
+            categorization__pb2.TuneRequest.SerializeToString,
+            categorization__pb2.TuneResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Categorize(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Categorization/Categorize',
+            categorization__pb2.CategorizeRequest.SerializeToString,
+            categorization__pb2.CategorizeResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -14,13 +14,20 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14\x63\x61tegorization.proto\"w\n\x0cTrainRequest\x12\x12\n\ntemplateId\x18\x01 \x01(\t\x12!\n\x05items\x18\x02 \x03(\x0b\x32\x12.TrainRequest.Item\x1a\x30\n\x04Item\x12\x14\n\x0c\x63\x61tegoryName\x18\x01 \x01(\t\x12\x12\n\nentityName\x18\x02 \x01(\t\" \n\rTrainResponse\x12\x0f\n\x07message\x18\x01 \x01(\t2:\n\x0e\x43\x61tegorization\x12(\n\x05Train\x12\r.TrainRequest\x1a\x0e.TrainResponse\"\x00\x42)\xaa\x02&YLists.Categorization.Client.Generatedb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14\x63\x61tegorization.proto\"\x7f\n\x0cTrainRequest\x12\x12\n\ntemplateId\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12!\n\x05items\x18\x03 \x03(\x0b\x32\x12.TrainRequest.Item\x1a&\n\x04Item\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x63\x61tegory\x18\x02 \x01(\t\"\"\n\rTrainResponse\x12\x11\n\ttimestamp\x18\x01 \x01(\t\"\x90\x01\n\x0bTuneRequest\x12\x12\n\ntemplateId\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\t\x12 \n\x05items\x18\x04 \x03(\x0b\x32\x11.TuneRequest.Item\x1a&\n\x04Item\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x10\n\x08\x63\x61tegory\x18\x02 \x01(\t\"!\n\x0cTuneResponse\x12\x11\n\ttimestamp\x18\x01 \x01(\t\"\x96\x01\n\x11\x43\x61tegorizeRequest\x12\x12\n\ntemplateId\x18\x01 \x01(\t\x12\x10\n\x08language\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\t\x12&\n\x05items\x18\x04 \x03(\x0b\x32\x17.CategorizeRequest.Item\x1a \n\x04Item\x12\n\n\x02id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"x\n\x12\x43\x61tegorizeResponse\x12\'\n\x05items\x18\x01 \x03(\x0b\x32\x18.CategorizeResponse.Item\x1a\x39\n\x04Item\x12\n\n\x02id\x18\x01 \x01(\t\x12\x10\n\x08\x63\x61tegory\x18\x02 \x01(\t\x12\x13\n\x0bprobability\x18\x03 \x01(\x02\x32\x9a\x01\n\x0e\x43\x61tegorization\x12(\n\x05Train\x12\r.TrainRequest\x1a\x0e.TrainResponse\"\x00\x12%\n\x04Tune\x12\x0c.TuneRequest\x1a\r.TuneResponse\"\x00\x12\x37\n\nCategorize\x12\x12.CategorizeRequest\x1a\x13.CategorizeResponse\"\x00\x42)\xaa\x02&YLists.Categorization.Client.Generatedb\x06proto3')
 
 
 
 _TRAINREQUEST = DESCRIPTOR.message_types_by_name['TrainRequest']
 _TRAINREQUEST_ITEM = _TRAINREQUEST.nested_types_by_name['Item']
 _TRAINRESPONSE = DESCRIPTOR.message_types_by_name['TrainResponse']
+_TUNEREQUEST = DESCRIPTOR.message_types_by_name['TuneRequest']
+_TUNEREQUEST_ITEM = _TUNEREQUEST.nested_types_by_name['Item']
+_TUNERESPONSE = DESCRIPTOR.message_types_by_name['TuneResponse']
+_CATEGORIZEREQUEST = DESCRIPTOR.message_types_by_name['CategorizeRequest']
+_CATEGORIZEREQUEST_ITEM = _CATEGORIZEREQUEST.nested_types_by_name['Item']
+_CATEGORIZERESPONSE = DESCRIPTOR.message_types_by_name['CategorizeResponse']
+_CATEGORIZERESPONSE_ITEM = _CATEGORIZERESPONSE.nested_types_by_name['Item']
 TrainRequest = _reflection.GeneratedProtocolMessageType('TrainRequest', (_message.Message,), {
 
   'Item' : _reflection.GeneratedProtocolMessageType('Item', (_message.Message,), {
@@ -43,17 +50,83 @@ TrainResponse = _reflection.GeneratedProtocolMessageType('TrainResponse', (_mess
   })
 _sym_db.RegisterMessage(TrainResponse)
 
+TuneRequest = _reflection.GeneratedProtocolMessageType('TuneRequest', (_message.Message,), {
+
+  'Item' : _reflection.GeneratedProtocolMessageType('Item', (_message.Message,), {
+    'DESCRIPTOR' : _TUNEREQUEST_ITEM,
+    '__module__' : 'categorization_pb2'
+    # @@protoc_insertion_point(class_scope:TuneRequest.Item)
+    })
+  ,
+  'DESCRIPTOR' : _TUNEREQUEST,
+  '__module__' : 'categorization_pb2'
+  # @@protoc_insertion_point(class_scope:TuneRequest)
+  })
+_sym_db.RegisterMessage(TuneRequest)
+_sym_db.RegisterMessage(TuneRequest.Item)
+
+TuneResponse = _reflection.GeneratedProtocolMessageType('TuneResponse', (_message.Message,), {
+  'DESCRIPTOR' : _TUNERESPONSE,
+  '__module__' : 'categorization_pb2'
+  # @@protoc_insertion_point(class_scope:TuneResponse)
+  })
+_sym_db.RegisterMessage(TuneResponse)
+
+CategorizeRequest = _reflection.GeneratedProtocolMessageType('CategorizeRequest', (_message.Message,), {
+
+  'Item' : _reflection.GeneratedProtocolMessageType('Item', (_message.Message,), {
+    'DESCRIPTOR' : _CATEGORIZEREQUEST_ITEM,
+    '__module__' : 'categorization_pb2'
+    # @@protoc_insertion_point(class_scope:CategorizeRequest.Item)
+    })
+  ,
+  'DESCRIPTOR' : _CATEGORIZEREQUEST,
+  '__module__' : 'categorization_pb2'
+  # @@protoc_insertion_point(class_scope:CategorizeRequest)
+  })
+_sym_db.RegisterMessage(CategorizeRequest)
+_sym_db.RegisterMessage(CategorizeRequest.Item)
+
+CategorizeResponse = _reflection.GeneratedProtocolMessageType('CategorizeResponse', (_message.Message,), {
+
+  'Item' : _reflection.GeneratedProtocolMessageType('Item', (_message.Message,), {
+    'DESCRIPTOR' : _CATEGORIZERESPONSE_ITEM,
+    '__module__' : 'categorization_pb2'
+    # @@protoc_insertion_point(class_scope:CategorizeResponse.Item)
+    })
+  ,
+  'DESCRIPTOR' : _CATEGORIZERESPONSE,
+  '__module__' : 'categorization_pb2'
+  # @@protoc_insertion_point(class_scope:CategorizeResponse)
+  })
+_sym_db.RegisterMessage(CategorizeResponse)
+_sym_db.RegisterMessage(CategorizeResponse.Item)
+
 _CATEGORIZATION = DESCRIPTOR.services_by_name['Categorization']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\252\002&YLists.Categorization.Client.Generated'
   _TRAINREQUEST._serialized_start=24
-  _TRAINREQUEST._serialized_end=143
-  _TRAINREQUEST_ITEM._serialized_start=95
-  _TRAINREQUEST_ITEM._serialized_end=143
-  _TRAINRESPONSE._serialized_start=145
-  _TRAINRESPONSE._serialized_end=177
-  _CATEGORIZATION._serialized_start=179
-  _CATEGORIZATION._serialized_end=237
+  _TRAINREQUEST._serialized_end=151
+  _TRAINREQUEST_ITEM._serialized_start=113
+  _TRAINREQUEST_ITEM._serialized_end=151
+  _TRAINRESPONSE._serialized_start=153
+  _TRAINRESPONSE._serialized_end=187
+  _TUNEREQUEST._serialized_start=190
+  _TUNEREQUEST._serialized_end=334
+  _TUNEREQUEST_ITEM._serialized_start=113
+  _TUNEREQUEST_ITEM._serialized_end=151
+  _TUNERESPONSE._serialized_start=336
+  _TUNERESPONSE._serialized_end=369
+  _CATEGORIZEREQUEST._serialized_start=372
+  _CATEGORIZEREQUEST._serialized_end=522
+  _CATEGORIZEREQUEST_ITEM._serialized_start=490
+  _CATEGORIZEREQUEST_ITEM._serialized_end=522
+  _CATEGORIZERESPONSE._serialized_start=524
+  _CATEGORIZERESPONSE._serialized_end=644
+  _CATEGORIZERESPONSE_ITEM._serialized_start=587
+  _CATEGORIZERESPONSE_ITEM._serialized_end=644
+  _CATEGORIZATION._serialized_start=647
+  _CATEGORIZATION._serialized_end=801
 # @@protoc_insertion_point(module_scope)
