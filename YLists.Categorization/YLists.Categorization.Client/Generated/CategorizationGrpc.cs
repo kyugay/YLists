@@ -49,6 +49,14 @@ namespace YLists.Categorization.Client.Generated {
     static readonly grpc::Marshaller<global::YLists.Categorization.Client.Generated.TrainRequest> __Marshaller_TrainRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::YLists.Categorization.Client.Generated.TrainRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Marshaller<global::YLists.Categorization.Client.Generated.TrainResponse> __Marshaller_TrainResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::YLists.Categorization.Client.Generated.TrainResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::YLists.Categorization.Client.Generated.TuneRequest> __Marshaller_TuneRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::YLists.Categorization.Client.Generated.TuneRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::YLists.Categorization.Client.Generated.TuneResponse> __Marshaller_TuneResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::YLists.Categorization.Client.Generated.TuneResponse.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::YLists.Categorization.Client.Generated.CategorizeRequest> __Marshaller_CategorizeRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::YLists.Categorization.Client.Generated.CategorizeRequest.Parser));
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Marshaller<global::YLists.Categorization.Client.Generated.CategorizeResponse> __Marshaller_CategorizeResponse = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::YLists.Categorization.Client.Generated.CategorizeResponse.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static readonly grpc::Method<global::YLists.Categorization.Client.Generated.TrainRequest, global::YLists.Categorization.Client.Generated.TrainResponse> __Method_Train = new grpc::Method<global::YLists.Categorization.Client.Generated.TrainRequest, global::YLists.Categorization.Client.Generated.TrainResponse>(
@@ -57,6 +65,22 @@ namespace YLists.Categorization.Client.Generated {
         "Train",
         __Marshaller_TrainRequest,
         __Marshaller_TrainResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::YLists.Categorization.Client.Generated.TuneRequest, global::YLists.Categorization.Client.Generated.TuneResponse> __Method_Tune = new grpc::Method<global::YLists.Categorization.Client.Generated.TuneRequest, global::YLists.Categorization.Client.Generated.TuneResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Tune",
+        __Marshaller_TuneRequest,
+        __Marshaller_TuneResponse);
+
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::YLists.Categorization.Client.Generated.CategorizeRequest, global::YLists.Categorization.Client.Generated.CategorizeResponse> __Method_Categorize = new grpc::Method<global::YLists.Categorization.Client.Generated.CategorizeRequest, global::YLists.Categorization.Client.Generated.CategorizeResponse>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "Categorize",
+        __Marshaller_CategorizeRequest,
+        __Marshaller_CategorizeResponse);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -110,6 +134,46 @@ namespace YLists.Categorization.Client.Generated {
       public virtual grpc::AsyncUnaryCall<global::YLists.Categorization.Client.Generated.TrainResponse> TrainAsync(global::YLists.Categorization.Client.Generated.TrainRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_Train, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::YLists.Categorization.Client.Generated.TuneResponse Tune(global::YLists.Categorization.Client.Generated.TuneRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Tune(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::YLists.Categorization.Client.Generated.TuneResponse Tune(global::YLists.Categorization.Client.Generated.TuneRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Tune, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::YLists.Categorization.Client.Generated.TuneResponse> TuneAsync(global::YLists.Categorization.Client.Generated.TuneRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return TuneAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::YLists.Categorization.Client.Generated.TuneResponse> TuneAsync(global::YLists.Categorization.Client.Generated.TuneRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Tune, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::YLists.Categorization.Client.Generated.CategorizeResponse Categorize(global::YLists.Categorization.Client.Generated.CategorizeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return Categorize(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::YLists.Categorization.Client.Generated.CategorizeResponse Categorize(global::YLists.Categorization.Client.Generated.CategorizeRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_Categorize, null, options, request);
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::YLists.Categorization.Client.Generated.CategorizeResponse> CategorizeAsync(global::YLists.Categorization.Client.Generated.CategorizeRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return CategorizeAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual grpc::AsyncUnaryCall<global::YLists.Categorization.Client.Generated.CategorizeResponse> CategorizeAsync(global::YLists.Categorization.Client.Generated.CategorizeRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_Categorize, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]

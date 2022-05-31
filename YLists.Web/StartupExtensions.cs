@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using YLists.BL.Contracts;
 using YLists.BL.Services;
+using YLists.Categorization.Client;
+using YLists.Categorization.Client.Contracts;
 using YLists.DAL;
 
 namespace YLists.Web
@@ -18,6 +20,9 @@ namespace YLists.Web
             services.AddScoped<IFieldMetadataDataService, FieldMetadataDataService>();
             services.AddScoped<IFieldOptionCollectionDataService, FieldOptionCollectionDataService>();
             services.AddScoped<IFieldOptionDataService, FieldOptionDataService>();
+            services.AddScoped<ICategorizationService, CategorizationService>();
+
+            services.AddScoped<ICategorizationClient, CategorizationClient>();
         }
 
         public static void UpdateDatabase(this IApplicationBuilder app)

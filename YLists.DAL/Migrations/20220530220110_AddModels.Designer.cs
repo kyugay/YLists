@@ -12,8 +12,8 @@ using YLists.DAL;
 namespace YLists.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220516095200_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220530220110_AddModels")]
+    partial class AddModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -276,6 +276,9 @@ namespace YLists.DAL.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
+                    b.Property<Guid>("EntityTemplateId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -285,12 +288,15 @@ namespace YLists.DAL.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ParentId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EntityTemplateId");
+
                     b.HasIndex("OwnerId");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
                 });
@@ -450,6 +456,42 @@ namespace YLists.DAL.Migrations
                     b.ToTable("FieldOptionCollection");
                 });
 
+            modelBuilder.Entity("YLists.DAL.Models.Model", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EntityTemplateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Language")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Timestamp")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityTemplateId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Models");
+                });
+
             modelBuilder.Entity("CategoryEntity", b =>
                 {
                     b.HasOne("YLists.DAL.Models.Category", null)
@@ -529,16 +571,24 @@ namespace YLists.DAL.Migrations
 
             modelBuilder.Entity("YLists.DAL.Models.Category", b =>
                 {
-                    b.HasOne("YLists.DAL.Models.Category", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                    b.HasOne("YLists.DAL.Models.EntityTemplate", "EntityTemplate")
+                        .WithMany("Categories")
+                        .HasForeignKey("EntityTemplateId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
 
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("YLists.DAL.Models.Category", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("EntityTemplate");
 
                     b.Navigation("Owner");
 
@@ -634,6 +684,25 @@ namespace YLists.DAL.Migrations
                     b.Navigation("Owner");
                 });
 
+            modelBuilder.Entity("YLists.DAL.Models.Model", b =>
+                {
+                    b.HasOne("YLists.DAL.Models.EntityTemplate", "EntityTemplate")
+                        .WithMany("Models")
+                        .HasForeignKey("EntityTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("EntityTemplate");
+
+                    b.Navigation("Owner");
+                });
+
             modelBuilder.Entity("YLists.DAL.Models.BlockMetadata", b =>
                 {
                     b.Navigation("FieldsMetadata");
@@ -653,7 +722,11 @@ namespace YLists.DAL.Migrations
                 {
                     b.Navigation("BlocksMetadata");
 
+                    b.Navigation("Categories");
+
                     b.Navigation("Entities");
+
+                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("YLists.DAL.Models.FieldMetadata", b =>

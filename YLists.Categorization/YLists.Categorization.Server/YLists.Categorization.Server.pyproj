@@ -21,7 +21,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="categorization\categorization_manager.py" />
+    <Compile Include="categorization\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="model_management\model_manager.py" />
+    <Compile Include="model_management\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Server.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="training\preprocessor.py" />
+    <Compile Include="training\training_manager.py" />
+    <Compile Include="training\__init__.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -30,7 +43,9 @@
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="generated\" />
+    <Folder Include="categorization\" />
+    <Folder Include="model_management\" />
+    <Folder Include="training\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

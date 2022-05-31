@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\YLists.Categorization\YLists.Categorization.Client\YLists.Categorization.Client.csproj" />
     <ProjectReference Include="..\YLists.DAL\YLists.DAL.csproj" />
   </ItemGroup>
 

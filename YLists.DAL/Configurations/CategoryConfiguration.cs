@@ -31,6 +31,12 @@ namespace YLists.DAL.Configurations
                 .IsRequired(false);
 
             builder
+                .HasOne(c => c.EntityTemplate)
+                .WithMany(et => et.Categories)
+                .HasForeignKey(c => c.EntityTemplateId)
+                .OnDelete(DeleteBehavior.ClientCascade);
+
+            builder
                 .HasOne(c => c.Owner)
                 .WithMany()
                 .HasForeignKey(c => c.OwnerId)

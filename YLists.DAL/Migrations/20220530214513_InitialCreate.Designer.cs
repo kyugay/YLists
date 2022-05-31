@@ -12,8 +12,8 @@ using YLists.DAL;
 namespace YLists.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220520165927_UpdateCategory2")]
-    partial class UpdateCategory2
+    [Migration("20220530214513_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -276,6 +276,9 @@ namespace YLists.DAL.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
+                    b.Property<Guid>("EntityTemplateId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -288,6 +291,8 @@ namespace YLists.DAL.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EntityTemplateId");
 
                     b.HasIndex("OwnerId");
 
@@ -530,6 +535,12 @@ namespace YLists.DAL.Migrations
 
             modelBuilder.Entity("YLists.DAL.Models.Category", b =>
                 {
+                    b.HasOne("YLists.DAL.Models.EntityTemplate", "EntityTemplate")
+                        .WithMany("Categories")
+                        .HasForeignKey("EntityTemplateId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser<System.Guid>", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
@@ -540,6 +551,8 @@ namespace YLists.DAL.Migrations
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("EntityTemplate");
 
                     b.Navigation("Owner");
 
@@ -653,6 +666,8 @@ namespace YLists.DAL.Migrations
             modelBuilder.Entity("YLists.DAL.Models.EntityTemplate", b =>
                 {
                     b.Navigation("BlocksMetadata");
+
+                    b.Navigation("Categories");
 
                     b.Navigation("Entities");
                 });

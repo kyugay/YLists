@@ -16,6 +16,9 @@ namespace YLists.DAL.Models
         public Guid? ParentId { get; set; }
         public Category? Parent { get; set; }
 
+        public Guid EntityTemplateId { get; set; }
+        public EntityTemplate EntityTemplate { get; set; }
+
         public Guid OwnerId { get; set; }
         public IdentityUser<Guid> Owner { get; set; }
 

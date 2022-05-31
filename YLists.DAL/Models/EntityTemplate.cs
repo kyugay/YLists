@@ -8,6 +8,8 @@ namespace YLists.DAL.Models
         {
             Entities = new List<Entity>();
             BlocksMetadata = new List<BlockMetadata>();
+            Categories = new List<Category>();
+            Models = new List<Model>();
         }
 
         public string Name { get; set; }
@@ -19,5 +21,9 @@ namespace YLists.DAL.Models
         public List<Entity> Entities { get; set; }
 
         public List<BlockMetadata> BlocksMetadata { get; set; }
+
+        public List<Category> Categories { get; set; }
+
+        public List<Model> Models { get; set; }
     }
 }
