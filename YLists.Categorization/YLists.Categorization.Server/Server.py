@@ -22,7 +22,7 @@ class Categorizer(categorization_pb2_grpc.CategorizationServicer):
 
         timestamp = model_manager.train_and_save(templateId, language, entities, categories)
 
-        return categorizer_pb2.TrainResponse(timestamp=timestamp)
+        return categorization_pb2.TrainResponse(timestamp=timestamp)
     
     def Tune(self, request, context):
         templateId = request.templateId
@@ -33,7 +33,7 @@ class Categorizer(categorization_pb2_grpc.CategorizationServicer):
 
         timestamp = model_manager.tune_and_save(templateId, language, timestamp, entities, categories)
 
-        return categorizer_pb2.TuneResponse(timestamp=timestamp)
+        return categorization_pb2.TuneResponse(timestamp=timestamp)
 
     def Categorize(self, request, context):
         templateId = request.templateId
@@ -43,8 +43,8 @@ class Categorizer(categorization_pb2_grpc.CategorizationServicer):
 
         result = categorization_manager.categorize(templateId, language, timestamp, entities)
 
-        response_items = [categorizer_pb2.CategorizeResponse().Item(id=id, category=category, probability=probability) for id, category, probability in list(result)]
-        response = categorizer_pb2.CategorizeResponse(items=response_items)
+        response_items = [categorization_pb2.CategorizeResponse().Item(id=id, category=category, probability=probability) for id, category, probability in list(result)]
+        response = categorization_pb2.CategorizeResponse(items=response_items)
         
         return response
 

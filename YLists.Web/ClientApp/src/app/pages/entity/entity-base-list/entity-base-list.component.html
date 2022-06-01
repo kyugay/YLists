@@ -1,0 +1,8 @@
+<ul *ngIf="templates$ | async; let templates" class="template-list">
+	<li *ngFor="let template of templates" (click)="routeToEntityList(template.id)" class="template-list-item">
+		<kendo-icon name="folder" size="xlarge" themeColor="primary" style="align-self: center; padding: 20px 0;"></kendo-icon>
+		<h3 class="template-title">
+			<span>{{template.name}}</span>
+		</h3>
+	</li>
+</ul>

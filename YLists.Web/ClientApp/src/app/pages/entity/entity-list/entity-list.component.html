@@ -2,6 +2,15 @@
 	<button kendoButton (click)="addEntity()" icon="plus" class="action-button">Add entity</button>
 </div>
 
+<ul *ngIf="categories$ | async; let categories" class="category-list">
+	<li *ngFor="let category of categories" (click)="routeToCategory(category.id)" class="category-list-item">
+		<kendo-icon name="folder" size="xlarge" themeColor="primary" style="align-self: center; padding: 20px 0;"></kendo-icon>
+		<h3 class="category-title">
+			<span>{{category.name}}</span>
+		</h3>
+	</li>
+</ul>
+
 <ul *ngIf="entities$ | async; let entities" class="entity-list">
 	<li *ngFor="let entity of entities" (click)="routeToEntity(entity.id)" class="entity-list-item">
 		<kendo-icon name="file-ascx" size="xlarge" themeColor="primary" style="align-self: center; padding: 20px 0;"></kendo-icon>

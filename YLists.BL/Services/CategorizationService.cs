@@ -23,6 +23,21 @@ namespace YLists.BL.Services
             _categorizationClient = categorizationClient;
         }
 
+        public async Task<Model> TrainFromTemplateAsync(string name, Guid templateId, string language)
+        {
+            var template = _context.EntityTemplates
+                .Include(et => et.Entities)
+                    .ThenInclude(e => e.Categories)
+                .Single(et => et.Id == templateId);
+
+            TrainingItem[] trainingItems = template.Entities
+                .SelectMany(e => e.Categories,
+                    (e, c) => new TrainingItem { Name = e.Name, Category = c.Name })
+                .ToArray();
+
+            return await TrainAsync(name, templateId, language, trainingItems);
+        }
+
         public async Task<Model> TrainAsync(string name, Guid templateId, string language, TrainingItem[] trainingItems)
         {
             var timestamp = await _categorizationClient.TrainAsync(templateId.ToString(), language, trainingItems);
@@ -35,6 +50,8 @@ namespace YLists.BL.Services
                 EntityTemplateId = templateId
             };
 
+            model.Owner = _accountService.GetCurrentUserAsync().Result;
+
             _context.Models.Add(model);
 
             _context.SaveChanges();
@@ -42,9 +59,18 @@ namespace YLists.BL.Services
             return model;
         }
 
-        public async Task<Model> TuneAsync(Guid modelId, TrainingItem[] trainingItems)
+        public async Task<Model> TuneAsync(Guid modelId)
         {
-            var model = _context.Models.Single(m => m.Id == modelId);
+            var model = _context.Models
+                .Include(m => m.EntityTemplate)
+                    .ThenInclude(et => et.Entities)
+                    .ThenInclude(e => e.Categories)
+                .Single(m => m.Id == modelId);
+
+            TrainingItem[] trainingItems = model.EntityTemplate.Entities
+                .SelectMany(e => e.Categories,
+                    (e, c) => new TrainingItem { Name = e.Name, Category = c.Name })
+                .ToArray();
 
             model.Timestamp = await _categorizationClient.TuneAsync(model.EntityTemplateId.ToString(), model.Language, model.Timestamp, trainingItems);
 

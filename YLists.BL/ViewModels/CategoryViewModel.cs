@@ -9,6 +9,8 @@
         public Guid? ParentId { get; set; }
         public CategoryViewModel? Parent { get; set; }
 
+        public Guid EntityTemplateId { get; set; }
+
         public Guid? OwnerId { get; set; }
 
         public List<CategoryViewModel>? Children { get; set; }

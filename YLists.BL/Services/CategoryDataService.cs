@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using YLists.BL.Contracts;
 using YLists.BL.ViewModels;
@@ -53,9 +52,9 @@ namespace YLists.BL.Services
             base.Update(category);
         }
 
-        public CategoryViewModel[] GetTreeListViewModels()
+        public CategoryViewModel[] GetTreeListViewModels(string templateId)
         {
-            var categories = GetQuery().Where(c => c.ParentId == null).ToArray();
+            var categories = GetQuery().Where(c => c.EntityTemplateId == Guid.Parse(templateId) && c.ParentId == null).ToArray();
             var res = _mapper.Map<CategoryViewModel[]>(categories);
             return res;
         }

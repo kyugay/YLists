@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EFCore.BulkExtensions;
 using Microsoft.EntityFrameworkCore;
 using YLists.BL.Contracts;
 using YLists.BL.ViewModels;
@@ -24,13 +23,10 @@ namespace YLists.BL.Services
         public override Guid Create(EntityViewModel model)
         {
             var entity = _mapper.Map<Entity>(model);
-            //entity.Owner = _accountService.GetCurrentUserAsync().Result;
 
             _context.Attach(entity);
 
             entity.Owner = _accountService.GetCurrentUserAsync().Result;
-
-            //_context.Entry(entity.EntityTemplate).State = EntityState.Detached;
 
             return base.Create(entity);
         }
@@ -55,6 +51,8 @@ namespace YLists.BL.Services
         public override void Update(EntityViewModel model)
         {
             var entity = Get(model.Id.Value);
+
+            _context.Attach(entity);
 
             entity = _mapper.Map(model, entity);
             entity.Owner = _accountService.GetCurrentUserAsync().Result;

@@ -607,8 +607,69 @@ export class CategoryClient {
         return _observableOf<CategoryViewModel[]>(null as any);
     }
 
-    getTreeList(): Observable<CategoryViewModel[]> {
-        let url_ = this.baseUrl + "/api/Category/GetTreeList";
+    getAllQueried(query: CategoryQuery): Observable<CategoryViewModel[]> {
+        let url_ = this.baseUrl + "/api/Category/GetAllQueried";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(query);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllQueried(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllQueried(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CategoryViewModel[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CategoryViewModel[]>;
+        }));
+    }
+
+    protected processGetAllQueried(response: HttpResponseBase): Observable<CategoryViewModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CategoryViewModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CategoryViewModel[]>(null as any);
+    }
+
+    getTreeList(templateId: string | null | undefined): Observable<CategoryViewModel[]> {
+        let url_ = this.baseUrl + "/api/Category/GetTreeList?";
+        if (templateId !== undefined && templateId !== null)
+            url_ += "templateId=" + encodeURIComponent("" + templateId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -902,6 +963,65 @@ export class EntityClient {
     }
 
     protected processGetAll(response: HttpResponseBase): Observable<EntityViewModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EntityViewModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EntityViewModel[]>(null as any);
+    }
+
+    getAllQueried(query: EntityQuery): Observable<EntityViewModel[]> {
+        let url_ = this.baseUrl + "/api/Entity/GetAllQueried";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(query);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllQueried(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllQueried(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EntityViewModel[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EntityViewModel[]>;
+        }));
+    }
+
+    protected processGetAllQueried(response: HttpResponseBase): Observable<EntityViewModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -2467,6 +2587,278 @@ export class FieldOptionClient {
     }
 }
 
+@Injectable()
+export class ModelClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    getAll(): Observable<ModelViewModel[]> {
+        let url_ = this.baseUrl + "/api/Model/GetAll";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ModelViewModel[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ModelViewModel[]>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<ModelViewModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ModelViewModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ModelViewModel[]>(null as any);
+    }
+
+    trainFromTemplate(name: string | null | undefined, language: string | null | undefined, templateId: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Model/TrainFromTemplate?";
+        if (name !== undefined && name !== null)
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
+        if (language !== undefined && language !== null)
+            url_ += "language=" + encodeURIComponent("" + language) + "&";
+        if (templateId === null)
+            throw new Error("The parameter 'templateId' cannot be null.");
+        else if (templateId !== undefined)
+            url_ += "templateId=" + encodeURIComponent("" + templateId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTrainFromTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTrainFromTemplate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processTrainFromTemplate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    trainFromFile(name: string | null | undefined, language: string | null | undefined, templateId: string | undefined, file: FileParameter | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Model/TrainFromFile?";
+        if (name !== undefined && name !== null)
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
+        if (language !== undefined && language !== null)
+            url_ += "language=" + encodeURIComponent("" + language) + "&";
+        if (templateId === null)
+            throw new Error("The parameter 'templateId' cannot be null.");
+        else if (templateId !== undefined)
+            url_ += "templateId=" + encodeURIComponent("" + templateId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file !== null && file !== undefined)
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTrainFromFile(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTrainFromFile(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processTrainFromFile(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    tune(id: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Model/Tune?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processTune(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processTune(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processTune(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    delete(id: string | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Model/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+}
+
 export class IdentityUserViewModelOfGuid implements IIdentityUserViewModelOfGuid {
     id!: string;
     userName!: string;
@@ -2890,6 +3282,7 @@ export class CategoryViewModel implements ICategoryViewModel {
     createdDate?: Date | undefined;
     parentId?: string | undefined;
     parent?: CategoryViewModel | undefined;
+    entityTemplateId!: string;
     ownerId?: string | undefined;
     children?: CategoryViewModel[] | undefined;
 
@@ -2909,6 +3302,7 @@ export class CategoryViewModel implements ICategoryViewModel {
             this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
             this.parentId = _data["parentId"];
             this.parent = _data["parent"] ? CategoryViewModel.fromJS(_data["parent"]) : <any>undefined;
+            this.entityTemplateId = _data["entityTemplateId"];
             this.ownerId = _data["ownerId"];
             if (Array.isArray(_data["children"])) {
                 this.children = [] as any;
@@ -2932,6 +3326,7 @@ export class CategoryViewModel implements ICategoryViewModel {
         data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
         data["parentId"] = this.parentId;
         data["parent"] = this.parent ? this.parent.toJSON() : <any>undefined;
+        data["entityTemplateId"] = this.entityTemplateId;
         data["ownerId"] = this.ownerId;
         if (Array.isArray(this.children)) {
             data["children"] = [];
@@ -2948,8 +3343,296 @@ export interface ICategoryViewModel {
     createdDate?: Date | undefined;
     parentId?: string | undefined;
     parent?: CategoryViewModel | undefined;
+    entityTemplateId: string;
     ownerId?: string | undefined;
     children?: CategoryViewModel[] | undefined;
+}
+
+export abstract class SortedQueryOfCategory implements ISortedQueryOfCategory {
+    sortExpressions!: SortExpression[];
+
+    constructor(data?: ISortedQueryOfCategory) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.sortExpressions = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["sortExpressions"])) {
+                this.sortExpressions = [] as any;
+                for (let item of _data["sortExpressions"])
+                    this.sortExpressions!.push(SortExpression.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SortedQueryOfCategory {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'SortedQueryOfCategory' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.sortExpressions)) {
+            data["sortExpressions"] = [];
+            for (let item of this.sortExpressions)
+                data["sortExpressions"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface ISortedQueryOfCategory {
+    sortExpressions: SortExpression[];
+}
+
+export abstract class FilteredSortedQueryOfCategory extends SortedQueryOfCategory implements IFilteredSortedQueryOfCategory {
+    filterExpressions!: FilterExpression[];
+
+    constructor(data?: IFilteredSortedQueryOfCategory) {
+        super(data);
+        if (!data) {
+            this.filterExpressions = [];
+        }
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["filterExpressions"])) {
+                this.filterExpressions = [] as any;
+                for (let item of _data["filterExpressions"])
+                    this.filterExpressions!.push(FilterExpression.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): FilteredSortedQueryOfCategory {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'FilteredSortedQueryOfCategory' cannot be instantiated.");
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.filterExpressions)) {
+            data["filterExpressions"] = [];
+            for (let item of this.filterExpressions)
+                data["filterExpressions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IFilteredSortedQueryOfCategory extends ISortedQueryOfCategory {
+    filterExpressions: FilterExpression[];
+}
+
+export class CategoryQuery extends FilteredSortedQueryOfCategory implements ICategoryQuery {
+
+    constructor(data?: ICategoryQuery) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): CategoryQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new CategoryQuery();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface ICategoryQuery extends IFilteredSortedQueryOfCategory {
+}
+
+export class FilterExpression implements IFilterExpression {
+    constraints!: FilterConstraint[];
+    propertyName!: string;
+    dataType!: DataType;
+    constraintsBehavior!: ConstraintsBehavior;
+
+    constructor(data?: IFilterExpression) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.constraints = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["constraints"])) {
+                this.constraints = [] as any;
+                for (let item of _data["constraints"])
+                    this.constraints!.push(FilterConstraint.fromJS(item));
+            }
+            this.propertyName = _data["propertyName"];
+            this.dataType = _data["dataType"];
+            this.constraintsBehavior = _data["constraintsBehavior"];
+        }
+    }
+
+    static fromJS(data: any): FilterExpression {
+        data = typeof data === 'object' ? data : {};
+        let result = new FilterExpression();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.constraints)) {
+            data["constraints"] = [];
+            for (let item of this.constraints)
+                data["constraints"].push(item.toJSON());
+        }
+        data["propertyName"] = this.propertyName;
+        data["dataType"] = this.dataType;
+        data["constraintsBehavior"] = this.constraintsBehavior;
+        return data;
+    }
+}
+
+export interface IFilterExpression {
+    constraints: FilterConstraint[];
+    propertyName: string;
+    dataType: DataType;
+    constraintsBehavior: ConstraintsBehavior;
+}
+
+export class FilterConstraint implements IFilterConstraint {
+    constraintType!: ConstraintType;
+    value?: string | undefined;
+
+    constructor(data?: IFilterConstraint) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.constraintType = _data["constraintType"];
+            this.value = _data["value"];
+        }
+    }
+
+    static fromJS(data: any): FilterConstraint {
+        data = typeof data === 'object' ? data : {};
+        let result = new FilterConstraint();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["constraintType"] = this.constraintType;
+        data["value"] = this.value;
+        return data;
+    }
+}
+
+export interface IFilterConstraint {
+    constraintType: ConstraintType;
+    value?: string | undefined;
+}
+
+export enum ConstraintType {
+    Equals = 0,
+    NotEquals = 1,
+    StartsWith = 2,
+    Contains = 3,
+    NotContains = 4,
+    EndsWith = 5,
+    LessThan = 6,
+    LessThenOrEqualTo = 7,
+    GreaterThan = 8,
+    GreaterThenOrEqualTo = 9,
+    Is = 10,
+    IsNot = 11,
+    Before = 12,
+    After = 13,
+}
+
+export enum DataType {
+    Text = 0,
+    Numeric = 1,
+    Boolean = 2,
+    Date = 3,
+}
+
+export enum ConstraintsBehavior {
+    All = 0,
+    Any = 1,
+}
+
+export class SortExpression implements ISortExpression {
+    sortByProperty!: string;
+    direction!: SortDirection;
+
+    constructor(data?: ISortExpression) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.sortByProperty = _data["sortByProperty"];
+            this.direction = _data["direction"];
+        }
+    }
+
+    static fromJS(data: any): SortExpression {
+        data = typeof data === 'object' ? data : {};
+        let result = new SortExpression();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["sortByProperty"] = this.sortByProperty;
+        data["direction"] = this.direction;
+        return data;
+    }
+}
+
+export interface ISortExpression {
+    sortByProperty: string;
+    direction: SortDirection;
+}
+
+export enum SortDirection {
+    Ascending = 0,
+    Descending = 1,
 }
 
 export class EntityViewModel implements IEntityViewModel {
@@ -3175,6 +3858,7 @@ export class EntityCategoryViewModel implements IEntityCategoryViewModel {
     name!: string;
     createdDate?: Date | undefined;
     parentId?: string | undefined;
+    entityTemplateId!: string;
     ownerId?: string | undefined;
 
     constructor(data?: IEntityCategoryViewModel) {
@@ -3192,6 +3876,7 @@ export class EntityCategoryViewModel implements IEntityCategoryViewModel {
             this.name = _data["name"];
             this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
             this.parentId = _data["parentId"];
+            this.entityTemplateId = _data["entityTemplateId"];
             this.ownerId = _data["ownerId"];
         }
     }
@@ -3209,6 +3894,7 @@ export class EntityCategoryViewModel implements IEntityCategoryViewModel {
         data["name"] = this.name;
         data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
         data["parentId"] = this.parentId;
+        data["entityTemplateId"] = this.entityTemplateId;
         data["ownerId"] = this.ownerId;
         return data;
     }
@@ -3219,7 +3905,183 @@ export interface IEntityCategoryViewModel {
     name: string;
     createdDate?: Date | undefined;
     parentId?: string | undefined;
+    entityTemplateId: string;
     ownerId?: string | undefined;
+}
+
+export abstract class SortedQueryOfEntity implements ISortedQueryOfEntity {
+    sortExpressions!: SortExpression[];
+
+    constructor(data?: ISortedQueryOfEntity) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.sortExpressions = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["sortExpressions"])) {
+                this.sortExpressions = [] as any;
+                for (let item of _data["sortExpressions"])
+                    this.sortExpressions!.push(SortExpression.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SortedQueryOfEntity {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'SortedQueryOfEntity' cannot be instantiated.");
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.sortExpressions)) {
+            data["sortExpressions"] = [];
+            for (let item of this.sortExpressions)
+                data["sortExpressions"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface ISortedQueryOfEntity {
+    sortExpressions: SortExpression[];
+}
+
+export abstract class FilteredSortedQueryOfEntity extends SortedQueryOfEntity implements IFilteredSortedQueryOfEntity {
+    filterExpressions!: FilterExpression[];
+
+    constructor(data?: IFilteredSortedQueryOfEntity) {
+        super(data);
+        if (!data) {
+            this.filterExpressions = [];
+        }
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            if (Array.isArray(_data["filterExpressions"])) {
+                this.filterExpressions = [] as any;
+                for (let item of _data["filterExpressions"])
+                    this.filterExpressions!.push(FilterExpression.fromJS(item));
+            }
+        }
+    }
+
+    static override fromJS(data: any): FilteredSortedQueryOfEntity {
+        data = typeof data === 'object' ? data : {};
+        throw new Error("The abstract class 'FilteredSortedQueryOfEntity' cannot be instantiated.");
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.filterExpressions)) {
+            data["filterExpressions"] = [];
+            for (let item of this.filterExpressions)
+                data["filterExpressions"].push(item.toJSON());
+        }
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IFilteredSortedQueryOfEntity extends ISortedQueryOfEntity {
+    filterExpressions: FilterExpression[];
+}
+
+export class EntityQuery extends FilteredSortedQueryOfEntity implements IEntityQuery {
+
+    constructor(data?: IEntityQuery) {
+        super(data);
+    }
+
+    override init(_data?: any) {
+        super.init(_data);
+    }
+
+    static override fromJS(data: any): EntityQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new EntityQuery();
+        result.init(data);
+        return result;
+    }
+
+    override toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        super.toJSON(data);
+        return data;
+    }
+}
+
+export interface IEntityQuery extends IFilteredSortedQueryOfEntity {
+}
+
+export class ModelViewModel implements IModelViewModel {
+    id?: string | undefined;
+    name!: string;
+    language!: string;
+    timestamp!: string;
+    entityTemplateId?: string | undefined;
+    entityTemplate?: EntityTemplateViewModel | undefined;
+
+    constructor(data?: IModelViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.language = _data["language"];
+            this.timestamp = _data["timestamp"];
+            this.entityTemplateId = _data["entityTemplateId"];
+            this.entityTemplate = _data["entityTemplate"] ? EntityTemplateViewModel.fromJS(_data["entityTemplate"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ModelViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ModelViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["language"] = this.language;
+        data["timestamp"] = this.timestamp;
+        data["entityTemplateId"] = this.entityTemplateId;
+        data["entityTemplate"] = this.entityTemplate ? this.entityTemplate.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IModelViewModel {
+    id?: string | undefined;
+    name: string;
+    language: string;
+    timestamp: string;
+    entityTemplateId?: string | undefined;
+    entityTemplate?: EntityTemplateViewModel | undefined;
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class ApiException extends Error {

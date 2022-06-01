@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MultiSelectTreeCheckableSettings } from '@progress/kendo-angular-dropdowns';
 import { Observable, of } from 'rxjs';
@@ -12,8 +12,10 @@ import { ApiModule } from 'src/app/api/api.generated';
 	templateUrl: './category-multiselect-tree.component.html',
 	styleUrls: ['./category-multiselect-tree.component.scss']
 })
-export class CategoryMultiselectTreeComponent
+export class CategoryMultiselectTreeComponent implements OnInit
 {
+    @Input() public templateId: string;
+
 	public items: ApiModule.CategoryViewModel[] = [];
 
 	@Input() public value: ApiModule.CategoryViewModel[];
@@ -26,8 +28,10 @@ export class CategoryMultiselectTreeComponent
 	public isLoading: boolean = false;
 
 	constructor(private categoryClient: ApiModule.CategoryClient,
-        private modalService: ModalService,
-        private cdr: ChangeDetectorRef)
+        private modalService: ModalService)
+    { }
+
+    ngOnInit(): void
     {
         this.updateItems();
     }
@@ -35,13 +39,13 @@ export class CategoryMultiselectTreeComponent
     public updateItems(): void
     {
         this.isLoading = true;
-
-        this.categoryClient.getTreeList()
+        console.log(this.templateId);
+        this.categoryClient.getTreeList(this.templateId)
             .pipe(
                 first(),
                 tap(_ => this.isLoading = false)
             )
-            .subscribe(categories => this.items = categories);
+            .subscribe(categories => this.items = categories.map(c => ApiModule.CategoryViewModel.fromJS(c)));
     }
 
     public onValueChange(event: ApiModule.CategoryViewModel[])
@@ -51,7 +55,7 @@ export class CategoryMultiselectTreeComponent
 
 	public showAddCategoryModal(parentId: string = null): void
     {
-		this.modalService.showAddCategoryModal(parentId).pipe(tap(_=>console.log('add cat', _)))
+		this.modalService.showAddCategoryModal(this.templateId, parentId)
             .subscribe(_ => this.updateItems());
 	}
 

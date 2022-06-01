@@ -29,16 +29,7 @@ import { ModalService } from './services/modal.service';
 import { NotifyService } from './services/notify.service';
 import { ObjectFormService } from './services/object-form.service';
 import { RoutingService } from './services/routing.service';
-//import { SearchService } from './services/search.service';
 import { UserService } from './services/user.service';
-
-	//#region 'ItemSources'
-// import { ItemSourceMasterService } from './services/item-source-master.service';
-// import { CategoryItemSourceService } from './services/item-sources/category-item-source.service';
-// import { CountryItemSourceService } from './services/item-sources/country-item-source.service';
-// import { GenreItemSourceService } from './services/item-sources/genre-item-source.service';
-// import { ProducerItemSourceService } from './services/item-sources/producer-item-source.service';
-	//#endregion
 //#endregion
 
 //#region 'Interceptors'
@@ -48,8 +39,10 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 const apiServices = [
 	ApiModule.AccountClient,
-	ApiModule.FieldOptionCollectionClient,
 	ApiModule.CategoryClient,
+	ApiModule.EntityTemplateClient,
+	ApiModule.FieldOptionCollectionClient,
+	ApiModule.ModelClient,
 ];
 
 const customServices = [
@@ -57,14 +50,7 @@ const customServices = [
 	NotifyService,
 	ObjectFormService,
 	RoutingService,
-	//SearchService,
 	UserService,
-
-	// ItemSourceMasterService,
-	// CategoryItemSourceService,
-	// CountryItemSourceService,
-	// GenreItemSourceService,
-	// ProducerItemSourceService,
 ];
 
 @NgModule({
@@ -79,17 +65,6 @@ const customServices = [
 		SharedModule,
 		AppRoutingModule,
 		HttpClientModule,
-		// ButtonsModule,
-		// DateInputsModule,
-		// InputsModule,
-		// DialogsModule,
-		// DropDownsModule,
-		// IconsModule,
-		// LayoutModule,
-		// NotificationModule,
-		// LabelModule,
-		// TooltipsModule,
-		// UploadsModule,
 	],
 	bootstrap: [AppComponent],
 	providers: [

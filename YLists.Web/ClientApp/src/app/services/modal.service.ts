@@ -1,24 +1,20 @@
 import { Injectable } from '@angular/core';
 import { DialogAction, DialogService, DialogRef, DialogCloseResult } from "@progress/kendo-angular-dialog";
 import { Observable, of } from 'rxjs';
-import { filter, map, mapTo, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiModule } from '../api/api.generated';
 
 import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
 import { EditFieldOptionsModalComponent } from '../components/modals/edit-field-options-modal/edit-field-options-modal.component';
-// import { ItemSourceMasterService } from './item-source-master.service';
-// import { FilterDto } from '../dtos/filter/filterDto';
-// import { FilterTreeNodeDto } from '../dtos/filter/filterTreeNodeDto';
-// import { RequestResult } from '../dtos/response/requestResult';
-// import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
-// import { UploadImageModalComponent } from '../components/modals/upload-image-modal/upload-image-modal.component';
-// import { ImageSelectFormControlData } from '../models/inputs/ImageSelectFormControlData';
+import { TrainModalComponent } from '../components/modals/train-modal/train-modal.component';
+import { TrainItem } from '../models/inputs/TrainItem';
 
 @Injectable()
 export class ModalService {
 	constructor(private dialogService: DialogService,
 		private fieldOptionCollectionClient: ApiModule.FieldOptionCollectionClient,
-		private categoryClient: ApiModule.CategoryClient)
+		private categoryClient: ApiModule.CategoryClient,
+		private modelClient: ApiModule.ModelClient)
 	{ }
 
 	public showEditFieldOptionsModal(): Observable<void>
@@ -62,10 +58,10 @@ export class ModalService {
 		);
 	}
 
-	public showAddCategoryModal(parentId: string = null): Observable<string>
+	public showAddCategoryModal(templateId: string, parentId: string = null): Observable<string>
 	{
 		return this.showAddItemModal('Add new category').pipe(
-			map(name => <ApiModule.CategoryViewModel>{ name, parentId }),
+			map(name => <ApiModule.CategoryViewModel>{ name, parentId, entityTemplateId: templateId }),
 			switchMap(category => this.categoryClient.create(category))
 		);
 	}
@@ -91,81 +87,20 @@ export class ModalService {
 		);
 	}
 
-	// public showUploadImageModal(): Observable<ImageSelectFormControlData> {
-	// 	const dialog: DialogRef = this.dialogService.open({
-	// 		title: "Загрузить изображение",
-	// 		content: UploadImageModalComponent,
-	// 		actions: [{ text: "Отменить" }, { text: "Загрузить", themeColor: "primary" }]
-	// 	});
+	public showTrainModal(): Observable<void>
+	{
+		const dialog: DialogRef = this.dialogService.open({
+			title: `Train model`,
+			content: TrainModalComponent,
+			actions: [{ text: 'Cancel' }, { text: 'Train', themeColor: 'primary' }]
+		});
 
-	// 	return dialog.result.pipe(
-	// 		filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === "Загрузить"),
-	// 		switchMap(_ => of(dialog.content.instance.value))
-	// 	);
-	// }
-
-	// public showAddItemModal(entity: string, parent: FilterTreeNodeDto = null): Observable<RequestResult> {
-	// 	const dialog: DialogRef = this.dialogService.open({
-	// 		title: "Добавить элемент",
-	// 		content: AddItemModalComponent,
-	// 		actions: [{ text: "Отменить" }, { text: "Добавить", themeColor: "primary" }]
-	// 	});
-
-	// 	return dialog.result.pipe(
-	// 		filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === "Добавить"),
-	// 		switchMap(_ => this.itemSourceMasterService.addItem(entity, dialog.content.instance.value, parent?.value))
-	// 	);
-	// }
-
-	// public showDeleteItemModal(entity: string, item: FilterDto): Observable<RequestResult> {
-	// 	const dialog: DialogRef = this.dialogService.open({
-	// 		title: "Удалить элемент",
-	// 		content: `Вы уверены, что хотите удалить элемент ${ item.text }?`,
-	// 		actions: [{ text: "Отменить" }, { text: "Удалить", themeColor: "primary" }]
-	// 	});
-	
-	// 	return dialog.result.pipe(
-	// 		filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === "Удалить"),
-	// 		switchMap(_ => this.itemSourceMasterService.deleteItem(entity, item.value))
-	// 	);
-	// }
-
-	// public showDeleteTreeItemModal(entity: string, item: FilterTreeNodeDto): Observable<RequestResult> {
-	// 	const dialog: DialogRef = this.dialogService.open({
-	// 		title: "Удалить элемент",
-	// 		content: `Вы уверены, что хотите удалить элемент ${ item.text }? Все вложенные элементы также будут удалены!`,
-	// 		actions: [{ text: "Отменить" }, { text: "Удалить", themeColor: "primary" }]
-	// 	});
-	
-	// 	return dialog.result.pipe(
-	// 		filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === "Удалить"),
-	// 		switchMap(_ => this.itemSourceMasterService.deleteItem(entity, item.value))
-	// 	);
-	// }
-
-	// public showAddCategoryModal(parentId: string = null): Observable<RequestResult> {
-	// 	const dialog: DialogRef = this.dialogService.open({
-	// 		title: "Добавить категорию",
-	// 		content: AddItemModalComponent,
-	// 		actions: [{ text: "Отменить" }, { text: "Добавить", themeColor: "primary" }]
-	// 	});
-
-	// 	return dialog.result.pipe(
-	// 		filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === "Добавить"),
-	// 		switchMap(_ => this.itemSourceMasterService.addItem('category', dialog.content.instance.value, parentId))
-	// 	);
-	// }
-
-	// public showDeleteCategoryModal(categoryId: string): Observable<RequestResult> {
-	// 	const dialog: DialogRef = this.dialogService.open({
-	// 		title: "Удалить категорию",
-	// 		content: `Вы уверены, что хотите удалить эту категорию? Все вложенные элементы также будут удалены!`,
-	// 		actions: [{ text: "Отменить" }, { text: "Удалить", themeColor: "primary" }]
-	// 	});
-	
-	// 	return dialog.result.pipe(
-	// 		filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === "Удалить"),
-	// 		switchMap(_ => this.itemSourceMasterService.deleteItem('category', categoryId))
-	// 	);
-	// }
+		return dialog.result.pipe(
+			filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === 'Train'),
+			map(_ => <TrainItem>dialog.content.instance.value),
+			switchMap(item => !item.files?.length ?
+				this.modelClient.trainFromTemplate(item.name, item.language, item.templateId) :
+				this.modelClient.trainFromFile(item.name, item.language, item.templateId, <ApiModule.FileParameter> { data: item.files[0], fileName: item.files[0].name }))
+		);
+	}
 }

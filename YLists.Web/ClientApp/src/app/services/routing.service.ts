@@ -19,8 +19,16 @@ export class RoutingService {
 		this.router.navigate([url]);
 	}
 
-	public navigateWithParameter(url: string, parameters: Array<string>): void {
+	public navigateWithParameters(url: string, parameters: Array<string>): void {
 		this.router.navigate([url, ...parameters]);
+	}
+
+	public navigateWithQuery(url: string, query: any): void {
+		this.router.navigate([url], { queryParams: query });
+	}
+
+	public navigateWithParametersAndQuery(url: string, parameters: Array<string>, query: any): void {
+		this.router.navigate([url, ...parameters], { queryParams: query });
 	}
 
 	public navigateHome(): void {
@@ -35,12 +43,26 @@ export class RoutingService {
 		this.navigate('account/sign-up');
 	}
 
-	public navigateEntityList(): void {
-		this.navigate('entities/all');
+	public navigateEntityBaseList(): void {
+		this.navigate('entities/list');
+	}
+
+	public navigateEntityList(templateId: string, categoryId: string = null): void {
+		if (!categoryId)
+			this.navigateWithParameters('entities/list', [templateId]);
+		else
+			this.navigateWithParametersAndQuery('entities/list', [templateId], { categoryId });
 	}
 	
-	public navigateEntityCard(entityId: string = 'new'): void {
-		this.navigateWithParameter('entities', [entityId]);
+	public navigateEntityCard(templateId: string, categoryId: string, entityId: string = 'new'): void {
+		if (!templateId && !categoryId)
+			this.navigateWithParameters('entities/card', [entityId]);
+		else if (templateId && !categoryId)
+			this.navigateWithParametersAndQuery('entities/card', [entityId], { templateId });
+		else if (!templateId && categoryId)
+			this.navigateWithParametersAndQuery('entities/card', [entityId], { categoryId });
+		else
+			this.navigateWithParametersAndQuery('entities/card', [entityId], { templateId, categoryId });
 	}
 
 	public navigateEntityTemplateList(): void {
@@ -48,23 +70,10 @@ export class RoutingService {
 	}
 	
 	public navigateEntityTemplateCard(templateId: string = 'new'): void {
-		this.navigateWithParameter('templates', [templateId]);
+		this.navigateWithParameters('templates', [templateId]);
 	}
 
-
-
-
-
-
-	// public navigateFilmList(): void {
-	// 	this.navigate('films/all');
-	// }
-	
-	// public navigateFilmCard(filmId: string = 'new'): void {
-	// 	this.navigateWithParameter('films', [filmId]);
-	// }
-
-	// public navigateCategoryList(categoryId: string = 'all'): void {
-	// 	this.navigateWithParameter('categories', [categoryId]);
-	// }
+	public navigateModelList(): void {
+		this.navigate('models/all');
+	}
 }

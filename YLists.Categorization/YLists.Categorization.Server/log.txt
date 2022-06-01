@@ -1,29 +1,88 @@
 INFO:root:Starting server...
 INFO:root:serving on port 50550
-ERROR:grpc._server:Exception calling application: Protocol message TrainResponse has no "tag" field.
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+ERROR:grpc._server:Exception calling application: empty vocabulary; perhaps the documents only contain stop words
 Traceback (most recent call last):
   File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
     response_or_iterator = behavior(argument, context)
-  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 15, in Train
-    return categorization_pb2.TrainResponse(tag = 'hello')
-ValueError: Protocol message TrainResponse has no "tag" field.
-ERROR:grpc._server:Exception calling application: Protocol message TrainResponse has no "tag" field.
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 23, in Train
+    timestamp = model_manager.train_and_save(templateId, language, entities, categories)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\model_management\model_manager.py", line 58, in train_and_save
+    (preprocessor, vectorizer, classifier) = training_manager.train(language, entities, categories)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\training\training_manager.py", line 65, in train
+    reduced_vocabulary = reduce_vocabulary(X_train['normalized'], X_train['category'])
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\training\training_manager.py", line 31, in reduce_vocabulary
+    X_tfidf = tfidf.fit_transform(X[y == i])
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\sklearn\feature_extraction\text.py", line 2078, in fit_transform
+    X = super().fit_transform(raw_documents)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\sklearn\feature_extraction\text.py", line 1338, in fit_transform
+    vocabulary, X = self._count_vocab(raw_documents, self.fixed_vocabulary_)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\sklearn\feature_extraction\text.py", line 1228, in _count_vocab
+    raise ValueError(
+ValueError: empty vocabulary; perhaps the documents only contain stop words
+INFO:root:Starting server...
+INFO:root:serving on port 50550
+INFO:root:Starting server...
+INFO:root:serving on port 50550
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+INFO:root:Starting server...
+INFO:root:serving on port 50550
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+ERROR:grpc._server:Exception calling application: too many values to unpack (expected 3)
 Traceback (most recent call last):
-  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
     response_or_iterator = behavior(argument, context)
-  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 15, in Train
-    return categorization_pb2.TrainResponse(tag = 'hello')
-ValueError: Protocol message TrainResponse has no "tag" field.
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 23, in Train
+    timestamp = model_manager.train_and_save(templateId, language, entities, categories)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\model_management\model_manager.py", line 58, in train_and_save
+    (preprocessor, vectorizer, classifier) = training_manager.train(language, entities, categories)
+ValueError: too many values to unpack (expected 3)
 INFO:root:Starting server...
 INFO:root:serving on port 50550
-ERROR:grpc._server:Exception calling application: Protocol message TrainResponse has no "tag" field.
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+ERROR:grpc._server:Exception calling application: name 'categorizer_pb2' is not defined
 Traceback (most recent call last):
-  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\venv\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
     response_or_iterator = behavior(argument, context)
-  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 15, in Train
-    return categorization_pb2.TrainResponse(message = 'hello')
-ValueError: Protocol message TrainResponse has no "tag" field.
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 25, in Train
+    return categorization_pb2.TrainResponse(timestamp=timestamp)
+NameError: name 'categorizer_pb2' is not defined
 INFO:root:Starting server...
 INFO:root:serving on port 50550
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
 INFO:root:Starting server...
 INFO:root:serving on port 50550
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+ERROR:grpc._server:Exception calling application: n_splits=3 cannot be greater than the number of members in each class.
+Traceback (most recent call last):
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\grpc\_server.py", line 443, in _call_behavior
+    response_or_iterator = behavior(argument, context)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\Server.py", line 23, in Train
+    timestamp = model_manager.train_and_save(templateId, language, entities, categories)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\model_management\model_manager.py", line 58, in train_and_save
+    (preprocessor, vectorizer, classifier) = training_manager.train(language, entities, categories)
+  File "D:\source\YLists\YLists.Categorization\YLists.Categorization.Server\training\training_manager.py", line 78, in train
+    classifier.fit(X_train_enc, X_train['category'])
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\model_selection\_search.py", line 875, in fit
+    self._run_search(evaluate_candidates)
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\model_selection\_search.py", line 1375, in _run_search
+    evaluate_candidates(ParameterGrid(self.param_grid))
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\model_selection\_search.py", line 834, in evaluate_candidates
+    for (cand_idx, parameters), (split_idx, (train, test)) in product(
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\model_selection\_split.py", line 340, in split
+    for train, test in super().split(X, y, groups):
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\model_selection\_split.py", line 86, in split
+    for test_index in self._iter_test_masks(X, y, groups):
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\model_selection\_split.py", line 713, in _iter_test_masks
+    test_folds = self._make_test_folds(X, y)
+  File "C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\model_selection\_split.py", line 675, in _make_test_folds
+    raise ValueError(
+ValueError: n_splits=3 cannot be greater than the number of members in each class.

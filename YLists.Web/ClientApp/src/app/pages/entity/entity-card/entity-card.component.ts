@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 import { ApiModule } from 'src/app/api/api.generated';
 import { ObjectFormService } from 'src/app/services/object-form.service';
@@ -15,6 +15,10 @@ import { RoutingService } from 'src/app/services/routing.service';
 })
 export class EntityCardComponent implements OnInit
 {
+	public entityId: string;
+	public templateId: string;
+	public categoryId: string;
+
 	public entity: ApiModule.EntityViewModel;
 	public entityForm: FormGroup;
 
@@ -36,7 +40,8 @@ export class EntityCardComponent implements OnInit
 
 	public isSubmitted: boolean = false;
 	
-	constructor(private entityClient: ApiModule.EntityClient,
+	constructor(private categoryClient: ApiModule.CategoryClient,
+		private entityClient: ApiModule.EntityClient,
 		private entityTemplateClient: ApiModule.EntityTemplateClient,
 		private activatedRoute: ActivatedRoute,
 		private objectFormService: ObjectFormService,
@@ -50,19 +55,35 @@ export class EntityCardComponent implements OnInit
 
 	private checkRouteParams(): void
 	{
-		this.activatedRoute.paramMap
+		combineLatest([this.activatedRoute.paramMap, this.activatedRoute.queryParamMap])
+			.pipe(map(([paramMap, queryParamMap]) => ({ paramMap, queryParamMap })))
 			.subscribe(params => {
-				const id = params.get('id');
-				this.isNew = !id || id === 'new';
+				this.entityId = params.paramMap.get('entityId');
+				this.templateId = params.queryParamMap.get('templateId');
+				this.categoryId = params.queryParamMap.get('categoryId');
+
+				this.isNew = !this.entityId || this.entityId === 'new';
 				this.isEdit = this.isNew;
 
 				this.setEntityTemplates();
-				if (!id || this.isNew)
+				if (!this.entityId || this.isNew) {
 					this.entityForm.markAllAsTouched();
+
+					if (this.templateId)
+					{
+						this.entityTemplateClient.get(this.templateId)
+							.subscribe(template => this.entityTemplateChange(template));
+					}
+
+					if (this.categoryId)
+					{
+						this.categoryClient.get(this.categoryId)
+							.subscribe(category => this.categories.push(category));
+					}
+				}
 				else
-					this.getEntity(id);
-			}
-		);
+					this.getEntity(this.entityId);
+			});
 	}
 
 	private initForm(): void
@@ -78,7 +99,7 @@ export class EntityCardComponent implements OnInit
 		keys: Array<keyof ApiModule.EntityViewModel> = Object.keys(model) as Array<keyof ApiModule.EntityViewModel>): void
 	{
 		this.entity = model;
-		this.categories = model.categories;
+		this.categories = model.categories.map(c => <ApiModule.CategoryViewModel>c);
 
 		const form = this.objectFormService.objectToForm(model, keys);
 
@@ -90,7 +111,6 @@ export class EntityCardComponent implements OnInit
 	private isValidForm(): boolean
 	{
 		this.isSubmitted = true;
-
 		if (!this.entityForm.valid)
 			return false;
 
@@ -112,6 +132,8 @@ export class EntityCardComponent implements OnInit
 
 	public entityTemplateChange(value: ApiModule.EntityTemplateViewModel): void
 	{
+		this.templateId = value.id;
+
 		const templateForm = this.objectFormService.objectToForm(value);
 
 		this.entityForm.setControl('entityTemplate', templateForm);
@@ -141,7 +163,7 @@ export class EntityCardComponent implements OnInit
 				.subscribe(entityId => {
 					this.isNew = this.isEdit = false;
 					if (entityId)
-						this.routingService.navigateEntityCard(entityId);
+						this.routingService.navigateEntityCard(this.templateId, this.categoryId, entityId);
 				});
 		}
 		else
@@ -167,6 +189,6 @@ export class EntityCardComponent implements OnInit
 
 	public closeCard(): void
 	{
-		this.routingService.navigateEntityList();
+		this.routingService.navigateEntityList(this.templateId, this.categoryId);
 	}
 }

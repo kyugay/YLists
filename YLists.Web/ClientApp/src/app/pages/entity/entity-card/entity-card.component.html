@@ -79,8 +79,8 @@
 			</ng-container>
 		</ng-container>
 
-		<div>
-			<category-multiselect-tree [(value)]="categories"></category-multiselect-tree>
+		<div *ngIf="!!templateId">
+			<category-multiselect-tree [templateId]="templateId" [(value)]="categories"></category-multiselect-tree>
 		</div>
 	</form>
 </div>

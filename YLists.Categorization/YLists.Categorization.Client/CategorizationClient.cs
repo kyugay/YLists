@@ -12,7 +12,7 @@ namespace YLists.Categorization.Client
 
         public CategorizationClient()
         {
-            _channel = new Channel("127.0.0.1:50051", ChannelCredentials.Insecure);
+            _channel = new Channel("127.0.0.1:50550", ChannelCredentials.Insecure);
             _client = new Generated.Categorization.CategorizationClient(_channel);
         }
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YLists.BL.Contracts;
+using YLists.BL.Queries;
 using YLists.BL.ViewModels;
 
 namespace YLists.Web.Controllers
@@ -29,11 +30,18 @@ namespace YLists.Web.Controllers
             return _categoryDataService.GetAllViewModels();
         }
 
+        [HttpPost]
+        [Route("GetAllQueried")]
+        public CategoryViewModel[] GetAllQueried(CategoryQuery query)
+        {
+            return _categoryDataService.GetAllViewModels(query);
+        }
+
         [HttpGet]
         [Route("GetTreeList")]
-        public CategoryViewModel[] GetTreeList()
+        public CategoryViewModel[] GetTreeList(string templateId)
         {
-            return _categoryDataService.GetTreeListViewModels();
+            return _categoryDataService.GetTreeListViewModels(templateId);
         }
 
         [HttpGet]

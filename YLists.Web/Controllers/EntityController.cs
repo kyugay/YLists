@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YLists.BL.Contracts;
+using YLists.BL.Queries;
 using YLists.BL.ViewModels;
 
 namespace YLists.Web.Controllers
@@ -27,6 +28,13 @@ namespace YLists.Web.Controllers
         public EntityViewModel[] GetAll()
         {
             return _entityDataService.GetAllViewModels();
+        }
+
+        [HttpPost]
+        [Route("GetAllQueried")]
+        public EntityViewModel[] GetAllQueried(EntityQuery query)
+        {
+            return _entityDataService.GetAllViewModels(query);
         }
 
         [HttpGet]

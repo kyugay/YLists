@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using YLists.BL.Queries.Base;
 
 namespace YLists.BL.Contracts
 {
@@ -13,6 +14,7 @@ namespace YLists.BL.Contracts
 
         IQueryable<TEntity> GetAll();
         TModel[] GetAllViewModels();
+        TModel[] GetAllViewModels(FilteredSortedQuery<TEntity> query);
         TEntity Get(Guid id);
         TModel GetViewModel(Guid id);
 

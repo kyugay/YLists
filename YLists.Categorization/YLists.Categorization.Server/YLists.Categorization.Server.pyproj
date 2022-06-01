@@ -4,13 +4,14 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>68b969cd-4648-475a-b075-d5eba3447ea8</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>YLists.Categorization.Server.py</StartupFile>
+    <StartupFile>Server.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>YLists.Categorization.Server</Name>
     <RootNamespace>YLists.Categorization.Server</RootNamespace>
+    <IsWindowsApplication>False</IsWindowsApplication>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

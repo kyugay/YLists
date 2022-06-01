@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using YLists.BL.Contracts;
+using YLists.BL.Queries.Base;
 using YLists.DAL;
 using YLists.DAL.Models;
 
@@ -76,6 +77,15 @@ namespace YLists.BL.Services
             var res = _mapper.ProjectTo<TModel>(entities).ToArray();
 
             return res;
+        }
+
+        public TModel[] GetAllViewModels(FilteredSortedQuery<TEntity> query)
+        {
+            var entities = GetAll();
+
+            entities = query.ApplyQuery(entities);
+
+            return _mapper.ProjectTo<TModel>(entities).ToArray();
         }
 
         public virtual TEntity Get(Guid id)

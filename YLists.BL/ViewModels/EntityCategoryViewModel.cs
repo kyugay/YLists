@@ -8,6 +8,8 @@
 
         public Guid? ParentId { get; set; }
 
+        public Guid EntityTemplateId { get; set; }
+
         public Guid? OwnerId { get; set; }
     }
 }

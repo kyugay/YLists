@@ -15,6 +15,7 @@ const PROXY_CONFIG = [
       "/api/FieldMetadata",
       "/api/FieldOptionCollection",
       "/api/FieldOption",
+      "/api/Model",
 
       "/swagger"
    ],

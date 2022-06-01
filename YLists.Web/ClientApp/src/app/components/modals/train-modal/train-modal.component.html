@@ -1,0 +1,53 @@
+<kendo-tabstrip>
+	<kendo-tabstrip-tab title="From template" [selected]="true" (tabSelect)="value.files = []">
+		<ng-template kendoTabContent>
+			<kendo-textbox
+              [clearButton]="true"
+              [(ngModel)]="value.name"
+			  placeholder="Name"
+            ></kendo-textbox>
+			<kendo-combobox
+				[data]="languages"
+				textField="text"
+				valueField="value"
+				[valuePrimitive]="true"
+				[(ngModel)]="value.language"
+				placeholder="Language"
+			></kendo-combobox>
+			<kendo-combobox
+				[data]="templates$ | async"
+				textField="text"
+				valueField="value"
+				[valuePrimitive]="true"
+				[(ngModel)]="value.templateId"
+				placeholder="Template"
+			></kendo-combobox>
+		</ng-template>
+	</kendo-tabstrip-tab>
+	<kendo-tabstrip-tab title="From file">
+		<ng-template kendoTabContent>
+			<kendo-textbox
+              [clearButton]="true"
+              [(ngModel)]="value.name"
+			  placeholder="Name"
+            ></kendo-textbox>
+			<kendo-combobox
+				[data]="languages"
+				textField="text"
+				valueField="value"
+				[valuePrimitive]="true"
+				[(ngModel)]="value.language"
+				placeholder="Language"
+			></kendo-combobox>
+			<kendo-combobox
+				[data]="templates$ | async"
+				textField="text"
+				valueField="value"
+				[valuePrimitive]="true"
+				[(ngModel)]="value.templateId"
+				placeholder="Template"
+			></kendo-combobox>
+			<kendo-fileselect [multiple]="false" [(ngModel)]="value.files"> </kendo-fileselect>
+		</ng-template>
+	</kendo-tabstrip-tab>
+</kendo-tabstrip>

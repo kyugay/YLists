@@ -1,48 +1,7 @@
 <div #header class="header-wrapper">
 	<div class="title">YLists</div>
-	<!-- <kendo-textbox
-		#searchInput
-		[(ngModel)]="searchValue"
-		(valueChange)="onSearchChange($event)"
-		placeholder="Что ищем, Лерочка?"
-		[clearButton]="true"
-		class="search-input"
-	>
-		<ng-template kendoTextBoxPrefixTemplate>
-			<kendo-icon name="zoom"></kendo-icon>
-		</ng-template>
-	</kendo-textbox> -->
 	<kendo-avatar #userButton class="avatar" (click)="toggleUserActionsPopup()" [shape]="'circle'" [icon]="'user'"></kendo-avatar>
 </div>
-
-<!-- <ng-container *ngVar="searchResult$ | async; let searchResult">
-	<kendo-popup
-		#searchPopup
-		*ngIf="showSearchPopup"
-		[anchor]="searchInputRef"
-		[anchorAlign]="anchorAlign"
-		[popupAlign]="popupAlign"
-		class="search-popup"
-	>
-		<ul class="search-list">
-			<li *ngFor="let category of searchResult?.categories"
-				(click)="routingService.navigateCategoryList(category.id)"
-				class="search-list-item"
-			>
-				<kendo-icon name="folder" class="category-icon"></kendo-icon>
-				<div>{{ category.name }}</div>
-			</li>
-		</ul>
-		<ul class="search-list">
-			<li *ngFor="let film of searchResult?.films"
-				(click)="routingService.navigateFilmCard(film.id)"
-				class="search-list-item">
-				<app-film-cover [imageSrc]="film.cover"></app-film-cover>
-				<div>{{ film.name }}</div>
-			</li>
-		</ul>
-	</kendo-popup>
-</ng-container> -->
 
 <kendo-popup
 	#userActionsPopup

@@ -22,11 +22,21 @@ namespace YLists.BL.MappingProfile
             CreateMap<EntityViewModel, Entity>()
                 .ForMember(dest => dest.EntityTemplateId, opt => opt.MapFrom(src => src.EntityTemplate.Id))
                 .ForMember(dest => dest.EntityTemplate, opt => opt.Ignore())
-                .AfterMap((src, dest) => {
+                .ForMember(dest => dest.Categories, opt => opt.Ignore())
+                .AfterMap((src, dest, ctx) => {
                     dest.EntityFieldValues = src.EntityTemplate?.BlocksMetadata?
                         .SelectMany(block => block.FieldsMetadata)
                         .Select(field => new EntityFieldValue() { Value = field.FieldValue ?? "", FieldMetadataId = field.Id.Value, EntityId = dest.Id })
                         .ToList() ?? new List<EntityFieldValue>();
+
+                    var srcCategories = ctx.Mapper.Map<Category[]>(src.Categories);
+
+                    dest.Categories.AddRange(srcCategories.Where(sc => !dest.Categories.Any(dc => dc.Id == sc.Id)));
+
+                    foreach (var categoryToDelete in dest.Categories.Where(dc => !srcCategories.Any(sc => sc.Id == dc.Id)).ToList())
+                    {
+                        dest.Categories.Remove(categoryToDelete);
+                    }
                 });
 
             CreateMap<EntityFieldValue, EntityFieldValueViewModel>()
@@ -57,6 +67,9 @@ namespace YLists.BL.MappingProfile
                 .ReverseMap();
 
             CreateMap<IdentityUser<Guid>, IdentityUserViewModel>()
+                .ReverseMap();
+
+            CreateMap<Model, ModelViewModel>()
                 .ReverseMap();
         }
     }

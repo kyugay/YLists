@@ -1,0 +1,14 @@
+<kendo-grid [data]="models$ | async" [loading]="isLoading">
+	<kendo-grid-column field="name"></kendo-grid-column>
+	<kendo-grid-column field="entityTemplate.name"></kendo-grid-column>
+	<kendo-grid-column field="language"></kendo-grid-column>
+	<kendo-grid-column field="timestamp"></kendo-grid-column>
+
+	<ng-template kendoGridToolbarTemplate>
+		<button (click)="showTrainModal()">Train</button>
+	</ng-template>
+	<ng-template kendoGridCellTemplate let-dataItem="dataItem">
+		<button (click)="tuneModel(dataItem.id)">Tune</button>
+		<button (clock)="deleteModel(dataItem.id)">Delete</button>
+	</ng-template>
+</kendo-grid>

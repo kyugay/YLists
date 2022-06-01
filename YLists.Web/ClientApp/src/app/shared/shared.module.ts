@@ -16,31 +16,24 @@ import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { UploadModule } from '@progress/kendo-angular-upload';
+import { FileSelectModule } from '@progress/kendo-angular-upload';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { ListBoxModule } from '@progress/kendo-angular-listbox';
+import { GridModule } from '@progress/kendo-angular-grid';
 //#endregion
 
 //#region 'Components'
-// import { FilmCoverComponent } from '../components/film-cover/film-cover.component';
-// import { CategoryFilmListComponent } from '../components/category-film-list/category-film-list.component';
-// import { FiltersComponent } from '../components/filters/filters.component';
-
 	//#region 'InputComponents'
 import { CategoryMultiselectTreeComponent } from '../components/inputs/category-multiselect-tree/category-multiselect-tree.component';
 import { DynamicEntityFieldComponent } from '../components/inputs/dynamic-entity-field/dynamic-entity-field.component';
 import { FieldOptionsComboboxComponent } from '../components/inputs/field-options-combobox/field-options-combobox.component';
-// import { ActionableComboboxComponent } from '../components/inputs/actionable-combobox/actionable-combobox.component';
-// import { ActionableMultiselectComponent } from '../components/inputs/actionable-multiselect/actionable-multiselect.component';
-// import { ActionableMultiselectTreeComponent } from '../components/inputs/actionable-multiselect-tree/actionable-multiselect-tree.component';
-// import { ImageSelectComponent } from '../components/inputs/image-select/image-select.component';
-// import { FilterMultiselectComponent } from '../components/inputs/filter-multiselect/filter-multiselect.component';
 	//#endregion
 
 	//#region 'Modals'
 import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
 import { EditFieldOptionsModalComponent } from '../components/modals/edit-field-options-modal/edit-field-options-modal.component';
-// import { UploadImageModalComponent } from '../components/modals/upload-image-modal/upload-image-modal.component';
+import { TrainModalComponent } from '../components/modals/train-modal/train-modal.component';
 	//#endregion
 //#endregion
 
@@ -70,32 +63,26 @@ const kendoModules = [
 	NotificationModule,
 	DropDownsModule,
 	UploadModule,
+	FileSelectModule,
 	DateInputsModule,
 	DialogsModule,
 	ListBoxModule,
+	GridModule,
 ];
 
 const inputComponents = [
 	CategoryMultiselectTreeComponent,
 	DynamicEntityFieldComponent,
 	FieldOptionsComboboxComponent,
-	// ActionableComboboxComponent,
-	// ActionableMultiselectComponent,
-	// ActionableMultiselectTreeComponent,
-	// ImageSelectComponent,
-	// FilterMultiselectComponent,
 ];
 
 const modals = [
 	AddItemModalComponent,
 	EditFieldOptionsModalComponent,
-	// UploadImageModalComponent,
+	TrainModalComponent,
 ];
 
 const components = [
-	// FilmCoverComponent,
-	// CategoryFilmListComponent,
-	// FiltersComponent,
 	...inputComponents,
 	...modals,
 ];

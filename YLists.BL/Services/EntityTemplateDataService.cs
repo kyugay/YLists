@@ -68,10 +68,6 @@ namespace YLists.BL.Services
                 block.FieldsMetadata.ForEach(field => {
                     field.BlockMetadataId = block.Id;
                     field.BlockMetadata = block;
-
-                    /*field.FieldOptionCollectionId = field.FieldOptionCollection?.Id;
-                    field.FieldOptionCollection = null;*/
-
                 });
 
                 _fieldMetadataDataService.Update(block.FieldsMetadata);

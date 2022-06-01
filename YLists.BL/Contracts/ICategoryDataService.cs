@@ -5,6 +5,6 @@ namespace YLists.BL.Contracts
 {
     public interface ICategoryDataService : IDataService<Category, CategoryViewModel>
     {
-        CategoryViewModel[] GetTreeListViewModels();
+        CategoryViewModel[] GetTreeListViewModels(string templateId);
     }
 }

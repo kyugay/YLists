@@ -80,4 +80,4 @@ def train(language, X, y):
     y_test_predict = classifier.predict(X_test_enc)
     y_test_proba = classifier.predict_proba(X_test_enc)
 
-    return (preprocessor, vectorizer, classifier, y_test_predict, y_test_proba)
+    return (preprocessor, vectorizer, classifier)
