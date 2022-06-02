@@ -34,6 +34,7 @@ import { FieldOptionsComboboxComponent } from '../components/inputs/field-option
 
 	//#region 'Modals'
 import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
+import { CategorizeModalComponent } from '../components/modals/categorize-modal/categorize-modal.component';
 import { EditFieldOptionsModalComponent } from '../components/modals/edit-field-options-modal/edit-field-options-modal.component';
 import { TrainModalComponent } from '../components/modals/train-modal/train-modal.component';
 	//#endregion
@@ -82,6 +83,7 @@ const inputComponents = [
 
 const modals = [
 	AddItemModalComponent,
+	CategorizeModalComponent,
 	EditFieldOptionsModalComponent,
 	TrainModalComponent,
 ];

@@ -66,12 +66,11 @@ namespace YLists.Web.Controllers
             _modelDataService.Delete(id);
         }
 
-
-        /*
-        POST	/api/Models/Train Обучение модели с помощью файла
-        POST	/api/Models/Train/{id} Обучение модели с помощью проставленных вручную категорий для всех элементов шаблона по Id
-        POST	/api/Models/Categorize/{id}	Проставление категории элемента по Id с использованием ML
-        POST	/api/Models/CategorizeAll/{id}	Проставление категории всех элементов шаблона по Id с использованием ML
-        */
+        [HttpPost]
+        [Route("Categorize")]
+        public async Task Categorize(Guid modelId, Guid entityId)
+        {
+            await _categorizationService.CategorizeAsync(modelId, new[] { entityId });
+        }
     }
 }

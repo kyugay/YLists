@@ -21,6 +21,7 @@ import { EntityCardComponent } from './entity-card/entity-card.component';
 		ApiModule.CategoryClient,
 		ApiModule.EntityClient,
 		ApiModule.EntityTemplateClient,
+		ApiModule.ModelClient,
 	]
 })
 export class EntityModule { }

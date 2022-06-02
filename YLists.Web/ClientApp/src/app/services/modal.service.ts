@@ -5,6 +5,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiModule } from '../api/api.generated';
 
 import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
+import { CategorizeModalComponent } from '../components/modals/categorize-modal/categorize-modal.component';
 import { EditFieldOptionsModalComponent } from '../components/modals/edit-field-options-modal/edit-field-options-modal.component';
 import { TrainModalComponent } from '../components/modals/train-modal/train-modal.component';
 import { TrainItem } from '../models/inputs/TrainItem';
@@ -101,6 +102,23 @@ export class ModalService {
 			switchMap(item => !item.files?.length ?
 				this.modelClient.trainFromTemplate(item.name, item.language, item.templateId) :
 				this.modelClient.trainFromFile(item.name, item.language, item.templateId, <ApiModule.FileParameter> { data: item.files[0], fileName: item.files[0].name }))
+		);
+	}
+
+	public showGetModelModal(templateId: string): Observable<string>
+	{
+		const dialog: DialogRef = this.dialogService.open({
+			title: `Select model`,
+			content: CategorizeModalComponent,
+			actions: [{ text: 'Cancel' }, { text: 'Select', themeColor: 'primary' }]
+		});
+		
+		const instanse = dialog.content.instance as CategorizeModalComponent;
+		instanse.templateId = templateId;
+
+		return dialog.result.pipe(
+			filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === 'Select'),
+			switchMap(_ => of(instanse.modelId))
 		);
 	}
 }

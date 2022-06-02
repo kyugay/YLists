@@ -23,6 +23,7 @@
 				></kendo-combobox>
 			</div>
 			<div class="card-action-buttons">
+				<button kendoButton *ngIf="!isEdit" (click)="categorize()">ML</button>
 				<button kendoButton *ngIf="isEdit" (click)="saveEntity()" icon="save"></button>
 				<button kendoButton *ngIf="isEdit" (click)="deleteEntity()" icon="delete"></button>
 				<button kendoButton *ngIf="!isNew" [toggleable]="true" [(selected)]="isEdit" icon="edit"></button>

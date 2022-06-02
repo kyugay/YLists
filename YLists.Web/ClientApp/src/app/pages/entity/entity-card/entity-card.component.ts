@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 
 import { ApiModule } from 'src/app/api/api.generated';
+import { ModalService } from 'src/app/services/modal.service';
 import { ObjectFormService } from 'src/app/services/object-form.service';
 import { RoutingService } from 'src/app/services/routing.service';
 
@@ -43,9 +44,11 @@ export class EntityCardComponent implements OnInit
 	constructor(private categoryClient: ApiModule.CategoryClient,
 		private entityClient: ApiModule.EntityClient,
 		private entityTemplateClient: ApiModule.EntityTemplateClient,
+		private modelClient: ApiModule.ModelClient,
 		private activatedRoute: ActivatedRoute,
 		private objectFormService: ObjectFormService,
-		private routingService: RoutingService)
+		private routingService: RoutingService,
+		private modalService: ModalService)
 	{
 		this.initForm();
 		this.checkRouteParams();
@@ -190,5 +193,12 @@ export class EntityCardComponent implements OnInit
 	public closeCard(): void
 	{
 		this.routingService.navigateEntityList(this.templateId, this.categoryId);
+	}
+
+	public categorize(): void
+	{
+		this.modalService.showGetModelModal(this.templateId)
+			.pipe(switchMap(modelId => this.modelClient.categorize(modelId, this.entityId)))
+			.subscribe(_ => this.routingService.navigateEntityCard(this.templateId, this.categoryId, this.entityId));
 	}
 }
