@@ -34,7 +34,7 @@
 	</ng-template>
 	<!-- CheckBoxes -->
 	<ng-template ngSwitchCase="7">
-		<!-- ============ Custom input ============ -->
+		<custom-checkboxes [(ngModel)]="stringValue" [fieldOptions]="fieldOptions"></custom-checkboxes>
 	</ng-template>
 	<!-- ComboBox -->
 	<ng-template ngSwitchCase="8">
@@ -42,7 +42,7 @@
 			[(ngModel)]="stringValue"
 			[data]="fieldOptions"
 			textField="value"
-			valueField="id"
+			valueField="value"
 			[valuePrimitive]="true"
 			[kendoDropDownFilter]="{ operator: 'contains' }"
 			class="w-100"
@@ -50,7 +50,7 @@
 	</ng-template>
 	<!-- MultiSelect -->
 	<ng-template ngSwitchCase="9">
-		<!-- ============ Custom input ============ -->
+		<custom-multiselect [(ngModel)]="stringValue" [fieldOptions]="fieldOptions"></custom-multiselect>
 	</ng-template>
 	<!-- ItemCover -->
 	<ng-template ngSwitchCase="10">

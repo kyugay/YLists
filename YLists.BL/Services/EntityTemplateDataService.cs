@@ -48,6 +48,8 @@ namespace YLists.BL.Services
 
         public override void Update(EntityTemplateViewModel model)
         {
+            var currentUser = _accountService.GetCurrentUserAsync().Result;
+
             var template = _mapper.Map<EntityTemplate>(model);
             template.Owner = _accountService.GetCurrentUserAsync().Result;
 
@@ -68,6 +70,9 @@ namespace YLists.BL.Services
                 block.FieldsMetadata.ForEach(field => {
                     field.BlockMetadataId = block.Id;
                     field.BlockMetadata = block;
+
+                    if (field.FieldOptionCollection != null)
+                        field.FieldOptionCollection.Owner = currentUser;
                 });
 
                 _fieldMetadataDataService.Update(block.FieldsMetadata);

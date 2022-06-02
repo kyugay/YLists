@@ -1,0 +1,6 @@
+<ul class="k-radio-list">
+	<li *ngFor="let item of checkboxItems" class="k-radio-item">
+		<kendo-label [for]="checkboxOption" [text]="item.text" class="k-radio-label"></kendo-label>
+		<input #checkboxOption kendoCheckBox type="checkbox" [(ngModel)]="item.value" (change)="onCheckboxChange()"/>
+	</li>
+</ul>

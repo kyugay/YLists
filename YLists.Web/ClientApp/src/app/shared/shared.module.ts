@@ -26,6 +26,8 @@ import { GridModule } from '@progress/kendo-angular-grid';
 //#region 'Components'
 	//#region 'InputComponents'
 import { CategoryMultiselectTreeComponent } from '../components/inputs/category-multiselect-tree/category-multiselect-tree.component';
+import { CustomCheckboxesComponent } from '../components/inputs/custom-checkboxes/custom-checkboxes.component';
+import { CustomMultiselectComponent } from '../components/inputs/custom-multiselect/custom-multiselect.component';
 import { DynamicEntityFieldComponent } from '../components/inputs/dynamic-entity-field/dynamic-entity-field.component';
 import { FieldOptionsComboboxComponent } from '../components/inputs/field-options-combobox/field-options-combobox.component';
 	//#endregion
@@ -72,6 +74,8 @@ const kendoModules = [
 
 const inputComponents = [
 	CategoryMultiselectTreeComponent,
+	CustomCheckboxesComponent,
+	CustomMultiselectComponent,
 	DynamicEntityFieldComponent,
 	FieldOptionsComboboxComponent,
 ];

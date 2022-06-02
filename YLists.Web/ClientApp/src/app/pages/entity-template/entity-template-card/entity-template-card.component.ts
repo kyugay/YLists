@@ -45,8 +45,8 @@ export class EntityTemplateCardComponent implements OnInit
 		{ value: ApiModule.FieldType.CheckBoxes, text: 'Checkboxes' },
 		{ value: ApiModule.FieldType.ComboBox, text: 'Select' },
 		{ value: ApiModule.FieldType.MultiSelect, text: 'Multiselect' },
-		{ value: ApiModule.FieldType.ItemCover, text: 'Item Cover' },
-		{ value: ApiModule.FieldType.CompleteSwitch, text: 'Complete' },
+		//{ value: ApiModule.FieldType.ItemCover, text: 'Item Cover' },
+		//{ value: ApiModule.FieldType.CompleteSwitch, text: 'Complete' },
 	];
 	public fieldTypeWithOptions =
 	{

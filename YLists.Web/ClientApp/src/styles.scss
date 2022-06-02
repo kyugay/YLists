@@ -1,7 +1,6 @@
 ﻿@import "./assets/styles/variables.scss";
 
 /* kendo ui */
-$is-dark-theme: true;
 $primary: $color-primary;
 $base-bg: $color-black-12-depth;
 $component-bg: $color-black-12-depth;
@@ -18,6 +17,10 @@ $button-text: $color-primary;
 
 $focused-shadow: inset 0 0 0 2px rgba(white, .13);
 $switch-container-focused-shadow: inset 0 0 0 3px rgba( white, .06) !default;
+
+$kendo-chip-solid-text: #ffffff;
+$kendo-chip-solid-bg: $color-primary;
+$kendo-chip-solid-border: rgba( white, .08 );
 
 @import "~@progress/kendo-theme-default/dist/all.scss";
 
@@ -54,6 +57,10 @@ $switch-container-focused-shadow: inset 0 0 0 3px rgba( white, .06) !default;
 
 .multiselect-tree-popup .k-treeview .k-in {
     width: 100%;
+}
+
+.k-chip-solid-base:hover, .k-chip-solid-base.k-hover {
+	color: black;
 }
 
 .k-dropdown .k-input {
