@@ -1,5 +1,6 @@
 <div class="action-button-list">
-	<button kendoButton (click)="addEntity()" icon="plus" class="action-button">Add entity</button>
+	<button *ngIf="!sharedAccessId" kendoButton (click)="share()" icon="share" class="action-button">Share</button>
+	<button *ngIf="!sharedAccessId" kendoButton (click)="addEntity()" icon="plus" class="action-button">Add entity</button>
 </div>
 
 <ul *ngIf="categories$ | async; let categories" class="category-list">

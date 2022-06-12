@@ -2909,6 +2909,416 @@ export class ModelClient {
         }
         return _observableOf<void>(null as any);
     }
+
+    categorizeAll(modelId: string | undefined, entitiesId: string[]): Observable<void> {
+        let url_ = this.baseUrl + "/api/Model/CategorizeAll?";
+        if (modelId === null)
+            throw new Error("The parameter 'modelId' cannot be null.");
+        else if (modelId !== undefined)
+            url_ += "modelId=" + encodeURIComponent("" + modelId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(entitiesId);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCategorizeAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCategorizeAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCategorizeAll(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+}
+
+@Injectable()
+export class SharedAccessClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    create(model: SharedAccessViewModel): Observable<string> {
+        let url_ = this.baseUrl + "/api/SharedAccess/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(model);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<string>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<string>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(null as any);
+    }
+
+    get(id: string | undefined): Observable<SharedAccessViewModel> {
+        let url_ = this.baseUrl + "/api/SharedAccess/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<SharedAccessViewModel>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<SharedAccessViewModel>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<SharedAccessViewModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SharedAccessViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SharedAccessViewModel>(null as any);
+    }
+
+    getAllTemplates(sharedAccessId: string | undefined): Observable<EntityTemplateViewModel[]> {
+        let url_ = this.baseUrl + "/api/SharedAccess/GetAllTemplates?";
+        if (sharedAccessId === null)
+            throw new Error("The parameter 'sharedAccessId' cannot be null.");
+        else if (sharedAccessId !== undefined)
+            url_ += "sharedAccessId=" + encodeURIComponent("" + sharedAccessId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllTemplates(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllTemplates(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EntityTemplateViewModel[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EntityTemplateViewModel[]>;
+        }));
+    }
+
+    protected processGetAllTemplates(response: HttpResponseBase): Observable<EntityTemplateViewModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EntityTemplateViewModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EntityTemplateViewModel[]>(null as any);
+    }
+
+    getAllQueriedCategories(sharedAccessId: string | undefined, query: CategoryQuery): Observable<CategoryViewModel[]> {
+        let url_ = this.baseUrl + "/api/SharedAccess/GetAllQueriedCategories?";
+        if (sharedAccessId === null)
+            throw new Error("The parameter 'sharedAccessId' cannot be null.");
+        else if (sharedAccessId !== undefined)
+            url_ += "sharedAccessId=" + encodeURIComponent("" + sharedAccessId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(query);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllQueriedCategories(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllQueriedCategories(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<CategoryViewModel[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<CategoryViewModel[]>;
+        }));
+    }
+
+    protected processGetAllQueriedCategories(response: HttpResponseBase): Observable<CategoryViewModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(CategoryViewModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CategoryViewModel[]>(null as any);
+    }
+
+    getAllQueriedEntities(sharedAccessId: string | undefined, query: EntityQuery): Observable<EntityViewModel[]> {
+        let url_ = this.baseUrl + "/api/SharedAccess/GetAllQueriedEntities?";
+        if (sharedAccessId === null)
+            throw new Error("The parameter 'sharedAccessId' cannot be null.");
+        else if (sharedAccessId !== undefined)
+            url_ += "sharedAccessId=" + encodeURIComponent("" + sharedAccessId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(query);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllQueriedEntities(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllQueriedEntities(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EntityViewModel[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EntityViewModel[]>;
+        }));
+    }
+
+    protected processGetAllQueriedEntities(response: HttpResponseBase): Observable<EntityViewModel[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(EntityViewModel.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EntityViewModel[]>(null as any);
+    }
+
+    getEntity(sharedAccessId: string | undefined, entityId: string | undefined): Observable<EntityViewModel> {
+        let url_ = this.baseUrl + "/api/SharedAccess/GetEntity?";
+        if (sharedAccessId === null)
+            throw new Error("The parameter 'sharedAccessId' cannot be null.");
+        else if (sharedAccessId !== undefined)
+            url_ += "sharedAccessId=" + encodeURIComponent("" + sharedAccessId) + "&";
+        if (entityId === null)
+            throw new Error("The parameter 'entityId' cannot be null.");
+        else if (entityId !== undefined)
+            url_ += "entityId=" + encodeURIComponent("" + entityId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEntity(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEntity(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<EntityViewModel>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<EntityViewModel>;
+        }));
+    }
+
+    protected processGetEntity(response: HttpResponseBase): Observable<EntityViewModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = EntityViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EntityViewModel>(null as any);
+    }
 }
 
 export class IdentityUserViewModelOfGuid implements IIdentityUserViewModelOfGuid {
@@ -3222,6 +3632,7 @@ export enum FieldType {
     MultiSelect = 9,
     ItemCover = 10,
     CompleteSwitch = 11,
+    Files = 12,
 }
 
 export class FieldOptionCollectionViewModel implements IFieldOptionCollectionViewModel {
@@ -4129,6 +4540,69 @@ export interface IModelViewModel {
     timestamp: string;
     entityTemplateId?: string | undefined;
     entityTemplate?: EntityTemplateViewModel | undefined;
+}
+
+export class SharedAccessViewModel implements ISharedAccessViewModel {
+    id?: string | undefined;
+    type!: SharedAccessType;
+    templateId?: string | undefined;
+    categoryId?: string | undefined;
+    entityId?: string | undefined;
+    createdDate?: Date | undefined;
+
+    constructor(data?: ISharedAccessViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.type = _data["type"];
+            this.templateId = _data["templateId"];
+            this.categoryId = _data["categoryId"];
+            this.entityId = _data["entityId"];
+            this.createdDate = _data["createdDate"] ? new Date(_data["createdDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): SharedAccessViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new SharedAccessViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["type"] = this.type;
+        data["templateId"] = this.templateId;
+        data["categoryId"] = this.categoryId;
+        data["entityId"] = this.entityId;
+        data["createdDate"] = this.createdDate ? this.createdDate.toISOString() : <any>undefined;
+        return data;
+    }
+}
+
+export interface ISharedAccessViewModel {
+    id?: string | undefined;
+    type: SharedAccessType;
+    templateId?: string | undefined;
+    categoryId?: string | undefined;
+    entityId?: string | undefined;
+    createdDate?: Date | undefined;
+}
+
+export enum SharedAccessType {
+    ForAllTemplates = 0,
+    ForTemplate = 1,
+    ForCategory = 2,
+    ForEntity = 3,
 }
 
 export interface FileParameter {

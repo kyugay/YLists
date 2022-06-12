@@ -10,7 +10,17 @@ const routes: Routes = [
 	{ path: 'list', component: EntityBaseListComponent },
 	{ path: 'list/:templateId', component: EntityListComponent },
 	{ path: 'card/:entityId', component: EntityCardComponent },
-	{ path: '**', redirectTo: 'list', pathMatch: 'full' },
+	{
+		path: 'shared/:sharedAccessId',
+		children: [
+			{ path: '', redirectTo: 'list', pathMatch: 'full' },
+			{ path: 'list', component: EntityBaseListComponent },
+			{ path: 'list/:templateId', component: EntityListComponent },
+			{ path: 'card/:entityId', component: EntityCardComponent },
+			{ path: '**', redirectTo: '', pathMatch: 'full' },
+		]
+	},
+	{ path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

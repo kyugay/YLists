@@ -17,5 +17,7 @@
 
         ItemCover,
         CompleteSwitch,
+
+        Files,
     }
 }

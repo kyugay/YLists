@@ -23,11 +23,12 @@
 				></kendo-combobox>
 			</div>
 			<div class="card-action-buttons">
-				<button kendoButton *ngIf="!isEdit" (click)="categorize()">ML</button>
-				<button kendoButton *ngIf="isEdit" (click)="saveEntity()" icon="save"></button>
-				<button kendoButton *ngIf="isEdit" (click)="deleteEntity()" icon="delete"></button>
-				<button kendoButton *ngIf="!isNew" [toggleable]="true" [(selected)]="isEdit" icon="edit"></button>
-				<button kendoButton *ngIf="!isEdit" (click)="closeCard()" icon="close"></button>
+				<button kendoButton *ngIf="!isEdit && !sharedAccessId" (click)="share()" icon="share"></button>
+				<button kendoButton *ngIf="!isEdit && !sharedAccessId" (click)="categorize()">ML</button>
+				<button kendoButton *ngIf="isEdit && !sharedAccessId" (click)="saveEntity()" icon="save"></button>
+				<button kendoButton *ngIf="isEdit && !sharedAccessId" (click)="deleteEntity()" icon="delete"></button>
+				<button kendoButton *ngIf="!isNew && !sharedAccessId" [toggleable]="true" [(selected)]="isEdit" icon="edit"></button>
+				<button kendoButton *ngIf="!isEdit || sharedAccessId" (click)="closeCard()" icon="close"></button>
 			</div>
 		</header>
 
@@ -81,6 +82,7 @@
 		</ng-container>
 
 		<div *ngIf="!!templateId">
+			<h3>Categories</h3>
 			<category-multiselect-tree [templateId]="templateId" [(value)]="categories"></category-multiselect-tree>
 		</div>
 	</form>

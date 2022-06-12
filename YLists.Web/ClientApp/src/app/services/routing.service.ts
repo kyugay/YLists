@@ -65,6 +65,28 @@ export class RoutingService {
 			this.navigateWithParametersAndQuery('entities/card', [entityId], { templateId, categoryId });
 	}
 
+	public navigateSharedEntityBaseList(sharedAccessId: string): void {
+		this.navigateWithParameters('entities/shared', [sharedAccessId, 'list']);
+	}
+
+	public navigateSharedEntityList(sharedAccessId: string, templateId: string, categoryId: string = null): void {
+		if (!categoryId)
+			this.navigateWithParameters('entities/shared', [sharedAccessId, 'list', templateId]);
+		else
+			this.navigateWithParametersAndQuery('entities/shared', [sharedAccessId, 'list', templateId], { categoryId });
+	}
+	
+	public navigateSharedEntityCard(sharedAccessId: string, templateId: string, categoryId: string, entityId: string = 'new'): void {
+		if (!templateId && !categoryId)
+			this.navigateWithParameters('entities/shared', [sharedAccessId, 'card', entityId]);
+		else if (templateId && !categoryId)
+			this.navigateWithParametersAndQuery('entities/shared', [sharedAccessId, 'card', entityId], { templateId });
+		else if (!templateId && categoryId)
+			this.navigateWithParametersAndQuery('entities/shared', [sharedAccessId, 'card', entityId], { categoryId });
+		else
+			this.navigateWithParametersAndQuery('entities/shared', [sharedAccessId, 'card', entityId], { templateId, categoryId });
+	}
+
 	public navigateEntityTemplateList(): void {
 		this.navigate('templates/all');
 	}

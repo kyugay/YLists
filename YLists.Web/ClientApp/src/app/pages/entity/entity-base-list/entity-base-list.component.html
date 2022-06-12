@@ -1,3 +1,7 @@
+<div class="action-button-list">
+	<button *ngIf="!sharedAccessId" kendoButton (click)="share()" icon="share" class="action-button">Share</button>
+</div>
+
 <ul *ngIf="templates$ | async; let templates" class="template-list">
 	<li *ngFor="let template of templates" (click)="routeToEntityList(template.id)" class="template-list-item">
 		<kendo-icon name="folder" size="xlarge" themeColor="primary" style="align-self: center; padding: 20px 0;"></kendo-icon>

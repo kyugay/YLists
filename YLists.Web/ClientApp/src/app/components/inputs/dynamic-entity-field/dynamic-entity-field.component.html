@@ -60,6 +60,10 @@
 	<ng-template ngSwitchCase="11">
 		<kendo-switch [(ngModel)]="booleanValue" onLabel="Yes" offLabel="No"></kendo-switch>
 	</ng-template>
+	<!-- Files -->
+	<ng-template ngSwitchCase="12">
+		<kendo-fileselect></kendo-fileselect>
+	</ng-template>
 	<ng-template ngSwitchDefault>
 		<kendo-textbox [(ngModel)]="stringValue" placeholder="Value" class="w-100"></kendo-textbox>
 	</ng-template>

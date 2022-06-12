@@ -47,6 +47,7 @@ export class EntityTemplateCardComponent implements OnInit
 		{ value: ApiModule.FieldType.MultiSelect, text: 'Multiselect' },
 		//{ value: ApiModule.FieldType.ItemCover, text: 'Item Cover' },
 		//{ value: ApiModule.FieldType.CompleteSwitch, text: 'Complete' },
+		{ value: ApiModule.FieldType.Files, text: 'Files' },
 	];
 	public fieldTypeWithOptions =
 	{

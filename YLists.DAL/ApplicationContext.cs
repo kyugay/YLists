@@ -22,6 +22,8 @@ namespace YLists.DAL
 
         public DbSet<Model> Models { get; set; }
 
+        public DbSet<SharedAccess> SharedAccesses { get; set; }
+
         public override DbSet<IdentityUser<Guid>> Users { get; set; }
         public override DbSet<IdentityUserClaim<Guid>> UserClaims { get; set; }
         public override DbSet<IdentityUserLogin<Guid>> UserLogins { get; set; }

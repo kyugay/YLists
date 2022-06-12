@@ -21,6 +21,7 @@ namespace YLists.Web
             services.AddScoped<IFieldOptionCollectionDataService, FieldOptionCollectionDataService>();
             services.AddScoped<IFieldOptionDataService, FieldOptionDataService>();
             services.AddScoped<IModelDataService, ModelDataService>();
+            services.AddScoped<ISharedAccessService, SharedAccessService>();
             services.AddScoped<ICategorizationService, CategorizationService>();
 
             services.AddScoped<ICategorizationClient, CategorizationClient>();

@@ -1,14 +1,17 @@
 <kendo-grid [data]="models$ | async" [loading]="isLoading">
-	<kendo-grid-column field="name"></kendo-grid-column>
-	<kendo-grid-column field="entityTemplate.name"></kendo-grid-column>
-	<kendo-grid-column field="language"></kendo-grid-column>
-	<kendo-grid-column field="timestamp"></kendo-grid-column>
-
 	<ng-template kendoGridToolbarTemplate>
 		<button (click)="showTrainModal()">Train</button>
 	</ng-template>
-	<ng-template kendoGridCellTemplate let-dataItem="dataItem">
-		<button (click)="tuneModel(dataItem.id)">Tune</button>
-		<button (clock)="deleteModel(dataItem.id)">Delete</button>
-	</ng-template>
+
+	<kendo-grid-column field="name" title="Name"></kendo-grid-column>
+	<kendo-grid-column field="entityTemplate.name" title="Template"></kendo-grid-column>
+	<kendo-grid-column field="language" title="Language"></kendo-grid-column>
+	<kendo-grid-column field="timestamp" title="Timestamp"></kendo-grid-column>
+
+	<kendo-grid-command-column title="" [width]="220">
+        <ng-template kendoGridCellTemplate let-dataItem>
+			<button (click)="tuneModel(dataItem.id)">Tune</button>
+			<button (clock)="deleteModel(dataItem.id)">Delete</button>
+		</ng-template>
+    </kendo-grid-command-column>
 </kendo-grid>

@@ -12,7 +12,7 @@ export class NavMenuComponent implements OnInit {
 
 	public expanded = false;
 	public items: Array<INavMenuItem> = [
-		{ icon: 'data', path: 'entities/all' },
+		{ icon: 'data', path: '/entities/list' },
 		{ icon: 'subreport', path: '/templates/all'},
 		{ icon: 'chart-rose', path: '/models/all'}
 	];

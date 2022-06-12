@@ -71,6 +71,9 @@ namespace YLists.BL.MappingProfile
 
             CreateMap<Model, ModelViewModel>()
                 .ReverseMap();
+
+            CreateMap<SharedAccess, SharedAccessViewModel>()
+                .ReverseMap();
         }
     }
 }

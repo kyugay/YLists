@@ -1,11 +1,12 @@
-//#region 'AngularBaseModules'
+//#region 'Modules'
+	//#region 'AngularBaseModules'
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-//#endregion
+	//#endregion
 
-//#region 'KendoModules'
+	//#region 'KendoModules'
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { InputsModule } from '@progress/kendo-angular-inputs';
 import { LabelModule } from '@progress/kendo-angular-label';
@@ -21,6 +22,10 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { ListBoxModule } from '@progress/kendo-angular-listbox';
 import { GridModule } from '@progress/kendo-angular-grid';
+	//#endregion
+
+import { ClipboardModule } from 'ngx-clipboard'
+
 //#endregion
 
 //#region 'Components'
@@ -73,6 +78,12 @@ const kendoModules = [
 	GridModule,
 ];
 
+const modules = [
+	...angularBaseModules,
+	...kendoModules,
+	ClipboardModule,
+]
+
 const inputComponents = [
 	CategoryMultiselectTreeComponent,
 	CustomCheckboxesComponent,
@@ -108,12 +119,10 @@ const directives = [
 		...directives,
 	],
 	imports: [
-		...angularBaseModules,
-		...kendoModules,
+		...modules,
 	],
 	exports: [
-		...angularBaseModules,
-		...kendoModules,
+		...modules,
 		...components,
 		...pipes,
 		...directives,

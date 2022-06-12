@@ -1,5 +1,20 @@
 @import "../../../../assets/styles/variables.scss";
 
+.action-button-list {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	margin-bottom: 30px;
+
+	.action-button {
+		border-radius: 25px;
+		padding: 9px 18px;
+		font-weight: 600;
+		font-size: 17px;
+		line-height: 20px;
+	}
+}
+
 .template-list {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(250px, 2fr));

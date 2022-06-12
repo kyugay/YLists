@@ -72,5 +72,12 @@ namespace YLists.Web.Controllers
         {
             await _categorizationService.CategorizeAsync(modelId, new[] { entityId });
         }
+
+        [HttpPost]
+        [Route("CategorizeAll")]
+        public async Task CategorizeAll(Guid modelId, Guid[] entitiesId)
+        {
+            await _categorizationService.CategorizeAsync(modelId, entitiesId);
+        }
     }
 }

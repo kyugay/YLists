@@ -3,9 +3,11 @@ import { FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, Observable, of } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
+import { ClipboardService } from 'ngx-clipboard';
 
 import { ApiModule } from 'src/app/api/api.generated';
 import { ModalService } from 'src/app/services/modal.service';
+import { NotifyService } from 'src/app/services/notify.service';
 import { ObjectFormService } from 'src/app/services/object-form.service';
 import { RoutingService } from 'src/app/services/routing.service';
 
@@ -16,6 +18,8 @@ import { RoutingService } from 'src/app/services/routing.service';
 })
 export class EntityCardComponent implements OnInit
 {
+	public sharedAccessId: string;
+
 	public entityId: string;
 	public templateId: string;
 	public categoryId: string;
@@ -45,10 +49,13 @@ export class EntityCardComponent implements OnInit
 		private entityClient: ApiModule.EntityClient,
 		private entityTemplateClient: ApiModule.EntityTemplateClient,
 		private modelClient: ApiModule.ModelClient,
+		private sharedAccessClient: ApiModule.SharedAccessClient,
 		private activatedRoute: ActivatedRoute,
 		private objectFormService: ObjectFormService,
 		private routingService: RoutingService,
-		private modalService: ModalService)
+		private modalService: ModalService,
+		private notifyService: NotifyService,
+		private clipboardService: ClipboardService)
 	{
 		this.initForm();
 		this.checkRouteParams();
@@ -61,6 +68,8 @@ export class EntityCardComponent implements OnInit
 		combineLatest([this.activatedRoute.paramMap, this.activatedRoute.queryParamMap])
 			.pipe(map(([paramMap, queryParamMap]) => ({ paramMap, queryParamMap })))
 			.subscribe(params => {
+				this.sharedAccessId = params.paramMap.get('sharedAccessId');
+
 				this.entityId = params.paramMap.get('entityId');
 				this.templateId = params.queryParamMap.get('templateId');
 				this.categoryId = params.queryParamMap.get('categoryId');
@@ -130,6 +139,9 @@ export class EntityCardComponent implements OnInit
 
 	private setEntityTemplates(): void
 	{
+		if (this.sharedAccessId)
+			return;
+
 		this.entityTemplates$ = this.entityTemplateClient.getAll();
 	}
 
@@ -144,8 +156,11 @@ export class EntityCardComponent implements OnInit
 
 	private getEntity(id: string): void
 	{
-		this.entityClient.get(id)
-			.pipe(first())
+		const apiMethod = !this.sharedAccessId ?
+			this.entityClient.get(id) :
+			this.sharedAccessClient.getEntity(this.sharedAccessId, id);
+
+		apiMethod.pipe(first())
 			.subscribe(
 				model => this.updateForm(model),
 				_ => this.closeCard()
@@ -154,7 +169,7 @@ export class EntityCardComponent implements OnInit
 
 	public saveEntity(): void
 	{
-		if (!this.isValidForm())
+		if (!this.isValidForm() || this.sharedAccessId)
 			return;
 
 		this.updateModel();
@@ -179,6 +194,9 @@ export class EntityCardComponent implements OnInit
 
 	public deleteEntity(): void
 	{
+		if (this.sharedAccessId)
+			return;
+
 		const entityId = this.entityForm.value.id;
 
 		if (!entityId)
@@ -192,11 +210,36 @@ export class EntityCardComponent implements OnInit
 
 	public closeCard(): void
 	{
-		this.routingService.navigateEntityList(this.templateId, this.categoryId);
+		!this.sharedAccessId ?
+			this.routingService.navigateEntityList(this.templateId, this.categoryId) :
+			this.routingService.navigateSharedEntityList(this.sharedAccessId, this.templateId, this.categoryId);
+	}
+
+	public share(): void
+	{
+		if (this.sharedAccessId)
+			return;
+
+		const sharedAccessModel = ApiModule.SharedAccessViewModel.fromJS({
+			type: ApiModule.SharedAccessType.ForEntity,
+			templateId: this.templateId,
+			categoryId: this.categoryId,
+			entityId: this.entityId
+		});
+
+		this.sharedAccessClient
+			.create(sharedAccessModel)
+			.subscribe(sharedLink => {
+				this.clipboardService.copy(sharedLink);
+				this.notifyService.showInfo('Link copied to clipboard');
+			});
 	}
 
 	public categorize(): void
 	{
+		if (this.sharedAccessId)
+			return;
+
 		this.modalService.showGetModelModal(this.templateId)
 			.pipe(switchMap(modelId => this.modelClient.categorize(modelId, this.entityId)))
 			.subscribe(_ => this.routingService.navigateEntityCard(this.templateId, this.categoryId, this.entityId));
