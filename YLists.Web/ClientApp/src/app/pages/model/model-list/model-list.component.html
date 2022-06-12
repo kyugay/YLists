@@ -1,6 +1,6 @@
-<kendo-grid [data]="models$ | async" [loading]="isLoading">
+<kendo-grid [data]="models$ | async" [loading]="isLoading" class="models-grid">
 	<ng-template kendoGridToolbarTemplate>
-		<button (click)="showTrainModal()">Train</button>
+		<button kendoButton (click)="showTrainModal()" class="action-button">Train</button>
 	</ng-template>
 
 	<kendo-grid-column field="name" title="Name"></kendo-grid-column>
@@ -10,8 +10,8 @@
 
 	<kendo-grid-command-column title="" [width]="220">
         <ng-template kendoGridCellTemplate let-dataItem>
-			<button (click)="tuneModel(dataItem.id)">Tune</button>
-			<button (clock)="deleteModel(dataItem.id)">Delete</button>
+			<button kendoButton (click)="tuneModel(dataItem.id)" class="action-button">Tune</button>
+			<button kendoButton (clock)="deleteModel(dataItem.id)" class="action-button">Delete</button>
 		</ng-template>
     </kendo-grid-command-column>
 </kendo-grid>

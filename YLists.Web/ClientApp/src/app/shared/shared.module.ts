@@ -21,6 +21,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { ListBoxModule } from '@progress/kendo-angular-listbox';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { TypographyModule } from '@progress/kendo-angular-typography';
 	//#endregion
 
 import { ClipboardModule } from 'ngx-clipboard'
@@ -77,6 +78,7 @@ const kendoModules = [
 	DialogsModule,
 	ListBoxModule,
 	GridModule,
+	TypographyModule,
 ];
 
 const modules = [

@@ -248,3 +248,11 @@ INFO:root:Starting server...
 INFO:root:serving on port 50550
 INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
 INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+INFO:root:Starting server...
+INFO:root:serving on port 50550
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345
+INFO:pymorphy2.opencorpora_dict.wrapper:Loading dictionaries from C:\Users\kyugay\AppData\Local\Programs\Python\Python310\lib\site-packages\pymorphy2_dicts_ru\data
+INFO:pymorphy2.opencorpora_dict.wrapper:format: 2.4, revision: 417127, updated: 2020-10-11T15:05:51.070345

@@ -27,9 +27,9 @@
 	<kendo-tabstrip-tab title="From file">
 		<ng-template kendoTabContent>
 			<kendo-textbox
-              [clearButton]="true"
-              [(ngModel)]="value.name"
-			  placeholder="Name"
+				[clearButton]="true"
+				[(ngModel)]="value.name"
+				placeholder="Name"
             ></kendo-textbox>
 			<kendo-combobox
 				[data]="languages"
@@ -49,8 +49,8 @@
 			></kendo-combobox>
 			<kendo-fileselect
 				[multiple]="false"
-				[(ngModel)]="value.files">
-			</kendo-fileselect>
+				[(ngModel)]="value.files"
+			></kendo-fileselect>
 		</ng-template>
 	</kendo-tabstrip-tab>
 </kendo-tabstrip>

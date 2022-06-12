@@ -31,6 +31,7 @@
 			(reorder)="onBlockReorder($event)"
 			(resize)="onBlockResize($event)"
 			autoFlow="row-dense"
+			class="tilelayout"
 		>
 			<kendo-tilelayout-item
 				*ngFor="let block of templateForm.controls.blocksMetadata['controls']; let i = index"
