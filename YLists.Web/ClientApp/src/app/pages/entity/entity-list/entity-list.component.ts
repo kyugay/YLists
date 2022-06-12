@@ -149,4 +149,13 @@ export class EntityListComponent implements OnInit
 
 		showModalMethod.subscribe(_ => this.updateData());
 	}
+
+	public categorize(): void
+	{
+		if (this.sharedAccessId)
+			return;
+
+		this.modalService.showCategorizeAllModal(this.templateId, this.categoryId)
+			.subscribe(_ => this.routingService.navigateEntityList(this.templateId, this.categoryId));
+	}
 }

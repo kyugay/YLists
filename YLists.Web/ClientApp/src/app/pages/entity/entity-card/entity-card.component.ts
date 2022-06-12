@@ -240,9 +240,7 @@ export class EntityCardComponent implements OnInit
 		if (this.sharedAccessId)
 			return;
 
-		const categoryIndex = !this.categoryId ? -1 : this.categories.findIndex(c => c.id === this.categoryId);
-
-		this.modalService.showGetModelModal(this.templateId, categoryIndex !== -1 ? this.categories[categoryIndex] : null, this.entityId)
+		this.modalService.showCategorizeModal(this.templateId, this.categoryId, this.entityId)
 			.subscribe(_ => this.routingService.navigateEntityCard(this.templateId, this.categoryId, this.entityId));
 	}
 }

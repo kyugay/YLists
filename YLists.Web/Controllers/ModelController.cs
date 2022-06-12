@@ -75,9 +75,9 @@ namespace YLists.Web.Controllers
 
         [HttpPost]
         [Route("CategorizeAll")]
-        public async Task CategorizeAll(Guid modelId, Guid[] entitiesId)
+        public async Task CategorizeAll(Guid templateId, Guid? categoryId, Guid modelId, Guid? destinationCategoryId, bool useNestedCategories)
         {
-            await _categorizationService.CategorizeAsync(modelId, entitiesId);
+            await _categorizationService.CategorizeAllAsync(templateId, categoryId, modelId, destinationCategoryId, useNestedCategories);
         }
     }
 }

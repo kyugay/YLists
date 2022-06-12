@@ -12,5 +12,7 @@ namespace YLists.BL.Contracts
         Task<Model> TuneAsync(Guid modelId);
 
         Task CategorizeAsync(Guid modelId, Guid[] entitiesId, Guid? destinationCategoryId = null);
+
+        Task CategorizeAllAsync(Guid templateId, Guid? categoryId, Guid modelId, Guid? destinationCategoryId, bool useNestedCategories);
     }
 }

@@ -5,6 +5,7 @@ import { filter, map, mapTo, switchMap } from 'rxjs/operators';
 import { ApiModule } from '../api/api.generated';
 
 import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
+import { CategorizeAllModalComponent } from '../components/modals/categorize-all-modal/categorize-all-modal.component';
 import { CategorizeModalComponent } from '../components/modals/categorize-modal/categorize-modal.component';
 import { EditFieldOptionsModalComponent } from '../components/modals/edit-field-options-modal/edit-field-options-modal.component';
 import { MultiCreationModalComponent } from '../components/modals/multi-creation-modal/multi-creation-modal.component';
@@ -107,21 +108,40 @@ export class ModalService {
 		);
 	}
 
-	public showGetModelModal(templateId: string, category: ApiModule.CategoryViewModel, entityId: string): Observable<void>
+	public showCategorizeModal(templateId: string, categoryId: string, entityId: string): Observable<void>
 	{
 		const dialog: DialogRef = this.dialogService.open({
-			title: `Select model`,
+			title: `Categorize`,
 			content: CategorizeModalComponent,
-			actions: [{ text: 'Cancel' }, { text: 'Select', themeColor: 'primary' }]
+			actions: [{ text: 'Cancel' }, { text: 'Ok', themeColor: 'primary' }]
 		});
 		
 		const instanse = dialog.content.instance as CategorizeModalComponent;
 		instanse.templateId = templateId;
-		instanse.currentCategory = category;
+		instanse.currentCategoryId = categoryId;
 
 		return dialog.result.pipe(
-			filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === 'Select'),
+			filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === 'Ok'),
 			switchMap(_ => this.modelClient.categorize(dialog.content.instance.modelId, entityId, dialog.content.instance.destinationCategory[0]?.id))
+		);
+	}
+
+	public showCategorizeAllModal(templateId: string, categoryId: string): Observable<void>
+	{
+		const dialog: DialogRef = this.dialogService.open({
+			title: `Categorize`,
+			content: CategorizeAllModalComponent,
+			actions: [{ text: 'Cancel' }, { text: 'Ok', themeColor: 'primary' }]
+		});
+		
+		const instanse = dialog.content.instance as CategorizeAllModalComponent;
+		instanse.templateId = templateId;
+		instanse.currentCategoryId = categoryId;
+
+
+		return dialog.result.pipe(
+			filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === 'Ok'),
+			switchMap(_ => this.modelClient.categorizeAll(templateId, categoryId, instanse.modelId, instanse.destinationCategory[0]?.id, instanse.useNestedCategories))
 		);
 	}
 

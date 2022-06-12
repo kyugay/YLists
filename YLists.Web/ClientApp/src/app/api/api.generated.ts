@@ -3072,22 +3072,30 @@ export class ModelClient {
         return _observableOf<void>(null as any);
     }
 
-    categorizeAll(modelId: string | undefined, entitiesId: string[]): Observable<void> {
+    categorizeAll(templateId: string | undefined, categoryId: string | null | undefined, modelId: string | undefined, destinationCategoryId: string | null | undefined, useNestedCategories: boolean | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Model/CategorizeAll?";
+        if (templateId === null)
+            throw new Error("The parameter 'templateId' cannot be null.");
+        else if (templateId !== undefined)
+            url_ += "templateId=" + encodeURIComponent("" + templateId) + "&";
+        if (categoryId !== undefined && categoryId !== null)
+            url_ += "categoryId=" + encodeURIComponent("" + categoryId) + "&";
         if (modelId === null)
             throw new Error("The parameter 'modelId' cannot be null.");
         else if (modelId !== undefined)
             url_ += "modelId=" + encodeURIComponent("" + modelId) + "&";
+        if (destinationCategoryId !== undefined && destinationCategoryId !== null)
+            url_ += "destinationCategoryId=" + encodeURIComponent("" + destinationCategoryId) + "&";
+        if (useNestedCategories === null)
+            throw new Error("The parameter 'useNestedCategories' cannot be null.");
+        else if (useNestedCategories !== undefined)
+            url_ += "useNestedCategories=" + encodeURIComponent("" + useNestedCategories) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(entitiesId);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
             })
         };
 

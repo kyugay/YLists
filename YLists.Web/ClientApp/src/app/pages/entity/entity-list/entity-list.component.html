@@ -1,5 +1,6 @@
 <div class="action-button-list">
 	<button *ngIf="!sharedAccessId" kendoButton (click)="share()" icon="share" class="action-button">Share</button>
+	<button *ngIf="!sharedAccessId" kendoButton (click)="categorize()" icon="validation-data" class="action-button">Categorize</button>
 	<button *ngIf="!sharedAccessId" kendoButton (click)="addEntity()" icon="plus" class="action-button">Add Entity</button>
 	<button *ngIf="!sharedAccessId" kendoButton (click)="showMultiCreationModal()" icon="plus" class="action-button">Multiple Creation</button>
 </div>

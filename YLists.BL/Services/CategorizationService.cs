@@ -94,31 +94,91 @@ namespace YLists.BL.Services
             var newCategorizeItems = await _categorizationClient.CategorizeAsync(model.EntityTemplateId.ToString(), model.Language, model.Timestamp, categorizeItems);
 
             var newCategoryNames = newCategorizeItems.Select(ci => ci.Category).ToArray();
-            var categories = _context.Categories.Where(c => c.EntityTemplateId == model.EntityTemplateId && newCategoryNames.Contains(c.Name)).ToList();
+            var categoriesQuery = _context.Categories.Where(c => c.EntityTemplateId == model.EntityTemplateId && newCategoryNames.Contains(c.Name));
+            if (destinationCategoryId.HasValue)
+            {
+                categoriesQuery = categoriesQuery.Where(c => c.ParentId == destinationCategoryId);
+            }
+            var categories = categoriesQuery.ToList();
 
             newCategoryNames
                 .Where(name => !categories.Any(c => c.Name == name))
-                .ToList()
-                .ForEach(name =>
-                {
-                    var category = new Category
-                    {
-                        Name = name,
-                        EntityTemplateId = model.EntityTemplateId,
-                        OwnerId = currentUser.Id
-                    };
-                    if (destinationCategoryId.HasValue)
-                        category.ParentId = destinationCategoryId.Value;
+                .ToList();
 
-                    _context.Categories.Add(category);
-                    categories.Add(category);
-                });
+            foreach (var name in newCategoryNames)
+            {
+                if (categories.Any(c => c.Name == name))
+                    continue;
+
+                var category = new Category
+                {
+                    Name = name,
+                    EntityTemplateId = model.EntityTemplateId,
+                    OwnerId = currentUser.Id
+                };
+                if (destinationCategoryId.HasValue)
+                    category.ParentId = destinationCategoryId.Value;
+
+                _context.Categories.Add(category);
+                categories.Add(category);
+            }
 
             _context.SaveChanges();
 
             entities.ForEach(e => e.Categories = categories.Where(c => newCategorizeItems.Any(ci => e.Id == ci.Id && c.Name == ci.Category)).ToList());
 
             _context.SaveChanges();
+        }
+
+        public async Task CategorizeAllAsync(Guid templateId, Guid? categoryId, Guid modelId, Guid? destinationCategoryId, bool useNestedCategories)
+        {
+            var currentUserId = _accountService.GetCurrentUserId();
+
+            var entitiesId = new List<Guid>();
+
+            if (!categoryId.HasValue)
+            {
+                var entities = _context.EntityTemplates
+                    .Include(t => t.Entities)
+                        .ThenInclude(e => e.Categories)
+                    .FirstOrDefault(t => t.Id == templateId && t.OwnerId == currentUserId)?
+                    .Entities;
+
+                if (!useNestedCategories)
+                    entities = entities?.Where(e => !e.Categories.Any()).ToList();
+
+                entitiesId.AddRange(entities?.Select(e => e.Id) ?? new Guid[] { });
+            }
+            else
+            {
+                _context.Categories
+                    .Include(c => c.Entities)
+                    .Where(c => c.OwnerId == currentUserId && c.EntityTemplateId == templateId)
+                    .Load();
+
+                var category = _context.Categories
+                    .Include(c => c.Entities)
+                    .FirstOrDefault(c => c.Id == categoryId.Value && c.EntityTemplateId == templateId && c.OwnerId == currentUserId);
+
+                entitiesId.AddRange(category?.Entities.Select(e => e.Id) ?? new Guid[] { });
+
+                if (useNestedCategories && category != null)
+                {
+                    Action<Category> getChildrenEntities = null;
+                    getChildrenEntities = (category) =>
+                    {
+                        foreach (var child in category.Children)
+                        {
+                            entitiesId.AddRange(child.Entities?.Select(e => e.Id) ?? new Guid[] { });
+                            getChildrenEntities(child);
+                        }
+                    };
+
+                    getChildrenEntities(category);
+                }
+            }
+
+            await CategorizeAsync(modelId, entitiesId.ToArray(), destinationCategoryId);
         }
     }
 }

@@ -1,0 +1,16 @@
+<label>Model:</label>
+<kendo-combobox
+	[data]="models$ | async"
+	textField="text"
+	valueField="value"
+	[valuePrimitive]="true"
+	[(ngModel)]="modelId"
+	placeholder="Select model"
+></kendo-combobox>
+
+<label>Use nested categories:</label>
+<kendo-switch [(ngModel)]="useNestedCategories"></kendo-switch>
+<br/>
+
+<label>Destination category:</label>
+<category-multiselect-tree [templateId]="templateId" [isSingle]="true" [isEditable]="false" [(value)]="destinationCategory"></category-multiselect-tree>

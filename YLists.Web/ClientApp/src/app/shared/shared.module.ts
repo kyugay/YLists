@@ -38,6 +38,7 @@ import { FieldOptionsComboboxComponent } from '../components/inputs/field-option
 
 	//#region 'Modals'
 import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
+import { CategorizeAllModalComponent } from '../components/modals/categorize-all-modal/categorize-all-modal.component';
 import { CategorizeModalComponent } from '../components/modals/categorize-modal/categorize-modal.component';
 import { EditFieldOptionsModalComponent } from '../components/modals/edit-field-options-modal/edit-field-options-modal.component';
 import { MultiCreationModalComponent } from '../components/modals/multi-creation-modal/multi-creation-modal.component';
@@ -94,6 +95,7 @@ const inputComponents = [
 
 const modals = [
 	AddItemModalComponent,
+	CategorizeAllModalComponent,
 	CategorizeModalComponent,
 	EditFieldOptionsModalComponent,
 	MultiCreationModalComponent,

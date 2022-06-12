@@ -6,14 +6,15 @@ import { ApiModule } from 'src/app/api/api.generated';
 import { Item } from 'src/app/models/inputs/item';
 
 @Component({
-	selector: 'categorize-modal',
-	templateUrl: './categorize-modal.component.html',
-	styleUrls: ['./categorize-modal.component.scss']
+	selector: 'categorize-all-modal',
+	templateUrl: './categorize-all-modal.component.html',
+	styleUrls: ['./categorize-all-modal.component.scss']
 })
-export class CategorizeModalComponent implements OnInit {
+export class CategorizeAllModalComponent implements OnInit {
     public templateId: string;
     public modelId: string;
     public currentCategoryId: string;
+    public useNestedCategories: boolean = false;
 
     public models$: Observable<Item[]> = of([]);
 
