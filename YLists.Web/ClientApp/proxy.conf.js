@@ -17,6 +17,7 @@ const PROXY_CONFIG = [
       "/api/FieldOption",
       "/api/Model",
       "/api/SharedAccess",
+      "/api",
 
       "/swagger"
    ],

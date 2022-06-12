@@ -1,6 +1,7 @@
 <div class="action-button-list">
 	<button *ngIf="!sharedAccessId" kendoButton (click)="share()" icon="share" class="action-button">Share</button>
-	<button *ngIf="!sharedAccessId" kendoButton (click)="addEntity()" icon="plus" class="action-button">Add entity</button>
+	<button *ngIf="!sharedAccessId" kendoButton (click)="addEntity()" icon="plus" class="action-button">Add Entity</button>
+	<button *ngIf="!sharedAccessId" kendoButton (click)="showMultiCreationModal()" icon="plus" class="action-button">Multiple Creation</button>
 </div>
 
 <ul *ngIf="categories$ | async; let categories" class="category-list">

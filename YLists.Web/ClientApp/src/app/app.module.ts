@@ -40,6 +40,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 const apiServices = [
 	ApiModule.AccountClient,
 	ApiModule.CategoryClient,
+	ApiModule.EntityClient,
 	ApiModule.EntityTemplateClient,
 	ApiModule.FieldOptionCollectionClient,
 	ApiModule.ModelClient,

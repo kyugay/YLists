@@ -1197,6 +1197,116 @@ export class EntityClient {
         }
         return _observableOf<void>(null as any);
     }
+
+    importEntities(templateId: string | undefined, file: FileParameter | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Entity/ImportEntities?";
+        if (templateId === null)
+            throw new Error("The parameter 'templateId' cannot be null.");
+        else if (templateId !== undefined)
+            url_ += "templateId=" + encodeURIComponent("" + templateId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file !== null && file !== undefined)
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processImportEntities(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processImportEntities(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processImportEntities(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
+
+    importEntitiesInCategory(templateId: string | undefined, categoryId: string | undefined, file: FileParameter | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/Entity/ImportEntitiesInCategory?";
+        if (templateId === null)
+            throw new Error("The parameter 'templateId' cannot be null.");
+        else if (templateId !== undefined)
+            url_ += "templateId=" + encodeURIComponent("" + templateId) + "&";
+        if (categoryId === null)
+            throw new Error("The parameter 'categoryId' cannot be null.");
+        else if (categoryId !== undefined)
+            url_ += "categoryId=" + encodeURIComponent("" + categoryId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file !== null && file !== undefined)
+            content_.append("file", file.data, file.fileName ? file.fileName : "file");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processImportEntitiesInCategory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processImportEntitiesInCategory(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processImportEntitiesInCategory(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(null as any);
+    }
 }
 
 @Injectable()
@@ -1732,6 +1842,56 @@ export class EntityTemplateClient {
             }));
         }
         return _observableOf<void>(null as any);
+    }
+
+    generateMultiCreationTemplate(entityTemplateId: string | undefined): Observable<FileResponse | null> {
+        let url_ = this.baseUrl + "/api/EntityTemplate/GenerateMultiCreationTemplate?";
+        if (entityTemplateId === null)
+            throw new Error("The parameter 'entityTemplateId' cannot be null.");
+        else if (entityTemplateId !== undefined)
+            url_ += "entityTemplateId=" + encodeURIComponent("" + entityTemplateId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/octet-stream"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGenerateMultiCreationTemplate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGenerateMultiCreationTemplate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<FileResponse | null>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<FileResponse | null>;
+        }));
+    }
+
+    protected processGenerateMultiCreationTemplate(response: HttpResponseBase): Observable<FileResponse | null> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return _observableOf({ fileName: fileName, data: responseBlob as any, status: status, headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<FileResponse | null>(null as any);
     }
 }
 
@@ -4608,6 +4768,13 @@ export enum SharedAccessType {
 export interface FileParameter {
     data: any;
     fileName: string;
+}
+
+export interface FileResponse {
+    data: Blob;
+    status: number;
+    fileName?: string;
+    headers?: { [name: string]: any };
 }
 
 export class ApiException extends Error {

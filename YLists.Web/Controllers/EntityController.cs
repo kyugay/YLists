@@ -58,5 +58,23 @@ namespace YLists.Web.Controllers
         {
             _entityDataService.Delete(id);
         }
+
+        [HttpPost]
+        [Route("ImportEntities")]
+        public void ImportEntities(Guid templateId, IFormFile file)
+        {
+            using var stream = file.OpenReadStream();
+
+            _entityDataService.ImportEntities(stream, templateId);
+        }
+
+        [HttpPost]
+        [Route("ImportEntitiesInCategory")]
+        public void ImportEntitiesInCategory(Guid templateId, Guid categoryId, IFormFile file)
+        {
+            using var stream = file.OpenReadStream();
+
+            _entityDataService.ImportEntities(stream, templateId, categoryId);
+        }
     }
 }

@@ -7,6 +7,7 @@ import { RoutingService } from 'src/app/services/routing.service';
 import { ApiModule } from 'src/app/api/api.generated';
 import { NotifyService } from 'src/app/services/notify.service';
 import { ClipboardService } from 'ngx-clipboard';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
 	selector: 'entity-list',
@@ -29,6 +30,7 @@ export class EntityListComponent implements OnInit
 				private sharedAccessClient: ApiModule.SharedAccessClient,
 				private routingService: RoutingService,
 				private notifyService: NotifyService,
+				private modalService: ModalService,
 				private clipboardService: ClipboardService)
 	{
 		this.checkRouteParams();
@@ -44,46 +46,51 @@ export class EntityListComponent implements OnInit
 				this.templateId = params.paramMap.get('templateId');
 				this.categoryId = params.queryParamMap.get('categoryId');
 
-				const categoryQuery = <ApiModule.CategoryQuery> { filterExpressions: [] };
-				const entityQuery = <ApiModule.EntityQuery> { filterExpressions: [] };
-
-				if (this.templateId)
-				{
-					categoryQuery.filterExpressions.push(<ApiModule.FilterExpression> {
-						constraints: [ <ApiModule.FilterConstraint> { constraintType: ApiModule.ConstraintType.Equals, value: this.templateId } ],
-						propertyName: 'entityTemplateId',
-						dataType: ApiModule.DataType.Text,
-						constraintsBehavior: ApiModule.ConstraintsBehavior.All
-					});
-
-					entityQuery.filterExpressions.push(<ApiModule.FilterExpression> {
-						constraints: [ <ApiModule.FilterConstraint> { constraintType: ApiModule.ConstraintType.Equals, value: this.templateId } ],
-						propertyName: 'entityTemplateId',
-						dataType: ApiModule.DataType.Text,
-						constraintsBehavior: ApiModule.ConstraintsBehavior.All
-					});
-				}
-
-				categoryQuery.filterExpressions.push(<ApiModule.FilterExpression> {
-					constraints: [ <ApiModule.FilterConstraint> { constraintType: ApiModule.ConstraintType.Equals, value: this.categoryId || null } ],
-					propertyName: 'parentId',
-					dataType: ApiModule.DataType.Text,
-					constraintsBehavior: ApiModule.ConstraintsBehavior.All
-				});
-
-				this.categories$ = !this.sharedAccessId ?
-					this.categoryClient.getAllQueried(categoryQuery) :
-					this.sharedAccessClient.getAllQueriedCategories(this.sharedAccessId, categoryQuery);
-				
-				const entitiesApiMethod = !this.sharedAccessId ?
-					this.entityClient.getAllQueried(entityQuery) :
-					this.sharedAccessClient.getAllQueriedEntities(this.sharedAccessId, entityQuery);
-				this.entities$ = entitiesApiMethod
-					.pipe(map(entities => !this.categoryId ?
-						entities.filter(e => !e.categories || e.categories.length == 0) :
-						entities.filter(e => e.categories.findIndex(c => c.id === this.categoryId) !== -1)
-					));
+				this.updateData();
 			});
+	}
+
+	public updateData(): void
+	{
+		const categoryQuery = <ApiModule.CategoryQuery> { filterExpressions: [] };
+		const entityQuery = <ApiModule.EntityQuery> { filterExpressions: [] };
+
+		if (this.templateId)
+		{
+			categoryQuery.filterExpressions.push(<ApiModule.FilterExpression> {
+				constraints: [ <ApiModule.FilterConstraint> { constraintType: ApiModule.ConstraintType.Equals, value: this.templateId } ],
+				propertyName: 'entityTemplateId',
+				dataType: ApiModule.DataType.Text,
+				constraintsBehavior: ApiModule.ConstraintsBehavior.All
+			});
+
+			entityQuery.filterExpressions.push(<ApiModule.FilterExpression> {
+				constraints: [ <ApiModule.FilterConstraint> { constraintType: ApiModule.ConstraintType.Equals, value: this.templateId } ],
+				propertyName: 'entityTemplateId',
+				dataType: ApiModule.DataType.Text,
+				constraintsBehavior: ApiModule.ConstraintsBehavior.All
+			});
+		}
+
+		categoryQuery.filterExpressions.push(<ApiModule.FilterExpression> {
+			constraints: [ <ApiModule.FilterConstraint> { constraintType: ApiModule.ConstraintType.Equals, value: this.categoryId || null } ],
+			propertyName: 'parentId',
+			dataType: ApiModule.DataType.Text,
+			constraintsBehavior: ApiModule.ConstraintsBehavior.All
+		});
+
+		this.categories$ = !this.sharedAccessId ?
+			this.categoryClient.getAllQueried(categoryQuery) :
+			this.sharedAccessClient.getAllQueriedCategories(this.sharedAccessId, categoryQuery);
+		
+		const entitiesApiMethod = !this.sharedAccessId ?
+			this.entityClient.getAllQueried(entityQuery) :
+			this.sharedAccessClient.getAllQueriedEntities(this.sharedAccessId, entityQuery);
+		this.entities$ = entitiesApiMethod
+			.pipe(map(entities => !this.categoryId ?
+				entities.filter(e => !e.categories || e.categories.length == 0) :
+				entities.filter(e => e.categories.findIndex(c => c.id === this.categoryId) !== -1)
+			));
 	}
 
 	ngOnInit(): void { }
@@ -126,5 +133,20 @@ export class EntityListComponent implements OnInit
 				this.clipboardService.copy(sharedLink);
 				this.notifyService.showInfo('Link copied to clipboard');
 			});
+	}
+
+	public showMultiCreationModal(): void
+	{
+		if (this.sharedAccessId)
+			return;
+
+		console.log(this.templateId);
+		console.log(this.categoryId);
+
+		const showModalMethod = !this.categoryId ?
+			this.modalService.showMultiCreationModal(this.templateId) :
+			this.modalService.showMultiCreationModal(this.templateId, this.categoryId);
+
+		showModalMethod.subscribe(_ => this.updateData());
 	}
 }

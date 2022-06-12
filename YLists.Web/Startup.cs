@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Text.Json;
 using YLists.BL.MappingProfile;
 using YLists.BL.Settings;
 using YLists.DAL;
+using YLists.Web.Extensions;
+using YLists.Web.Middlewares;
 
 namespace YLists.Web
 {
@@ -113,6 +113,8 @@ namespace YLists.Web
 
             app.UseOpenApi();
             app.UseSwaggerUi3();
+
+            app.UseMiddleware<MaximumRequestTimeoutMiddleware>();
 
             app.UseExceptionHandler(c => c.Run(async context =>
             {

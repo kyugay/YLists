@@ -16,8 +16,7 @@ import { PopupModule } from '@progress/kendo-angular-popup';
 import { TooltipModule } from '@progress/kendo-angular-tooltip';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { UploadModule } from '@progress/kendo-angular-upload';
-import { FileSelectModule } from '@progress/kendo-angular-upload';
+import { FileSelectModule, UploadModule } from '@progress/kendo-angular-upload';
 import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { DialogsModule } from '@progress/kendo-angular-dialog';
 import { ListBoxModule } from '@progress/kendo-angular-listbox';
@@ -41,6 +40,7 @@ import { FieldOptionsComboboxComponent } from '../components/inputs/field-option
 import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
 import { CategorizeModalComponent } from '../components/modals/categorize-modal/categorize-modal.component';
 import { EditFieldOptionsModalComponent } from '../components/modals/edit-field-options-modal/edit-field-options-modal.component';
+import { MultiCreationModalComponent } from '../components/modals/multi-creation-modal/multi-creation-modal.component';
 import { TrainModalComponent } from '../components/modals/train-modal/train-modal.component';
 	//#endregion
 //#endregion
@@ -70,8 +70,8 @@ const kendoModules = [
 	TooltipModule,
 	NotificationModule,
 	DropDownsModule,
-	UploadModule,
 	FileSelectModule,
+	UploadModule,
 	DateInputsModule,
 	DialogsModule,
 	ListBoxModule,
@@ -96,6 +96,7 @@ const modals = [
 	AddItemModalComponent,
 	CategorizeModalComponent,
 	EditFieldOptionsModalComponent,
+	MultiCreationModalComponent,
 	TrainModalComponent,
 ];
 

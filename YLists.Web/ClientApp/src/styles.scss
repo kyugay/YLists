@@ -110,6 +110,11 @@ $kendo-chip-solid-border: rgba( white, .08 );
 	background-color: $primary;
 }
 
+a {
+	color: $color-primary;
+    cursor: pointer;
+}
+
 body {
 	background-color: $color-black-06-depth;
 	font-family: Raleway;

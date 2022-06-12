@@ -24,11 +24,11 @@
 			</div>
 			<div class="card-action-buttons">
 				<button kendoButton *ngIf="!isEdit && !sharedAccessId" (click)="share()" icon="share"></button>
-				<button kendoButton *ngIf="!isEdit && !sharedAccessId" (click)="categorize()">ML</button>
+				<button kendoButton *ngIf="!isEdit && !sharedAccessId" (click)="categorize()" icon="validation-data"></button>
 				<button kendoButton *ngIf="isEdit && !sharedAccessId" (click)="saveEntity()" icon="save"></button>
 				<button kendoButton *ngIf="isEdit && !sharedAccessId" (click)="deleteEntity()" icon="delete"></button>
 				<button kendoButton *ngIf="!isNew && !sharedAccessId" [toggleable]="true" [(selected)]="isEdit" icon="edit"></button>
-				<button kendoButton *ngIf="!isEdit || sharedAccessId" (click)="closeCard()" icon="close"></button>
+				<button kendoButton (click)="closeCard()" icon="close"></button>
 			</div>
 		</header>
 

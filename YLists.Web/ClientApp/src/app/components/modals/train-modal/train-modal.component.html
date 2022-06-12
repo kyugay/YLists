@@ -47,7 +47,10 @@
 				[(ngModel)]="value.templateId"
 				placeholder="Template"
 			></kendo-combobox>
-			<kendo-fileselect [multiple]="false" [(ngModel)]="value.files"> </kendo-fileselect>
+			<kendo-fileselect
+				[multiple]="false"
+				[(ngModel)]="value.files">
+			</kendo-fileselect>
 		</ng-template>
 	</kendo-tabstrip-tab>
 </kendo-tabstrip>

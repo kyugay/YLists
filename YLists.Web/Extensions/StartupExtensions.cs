@@ -5,7 +5,7 @@ using YLists.Categorization.Client;
 using YLists.Categorization.Client.Contracts;
 using YLists.DAL;
 
-namespace YLists.Web
+namespace YLists.Web.Extensions
 {
     public static class StartupExtensions
     {

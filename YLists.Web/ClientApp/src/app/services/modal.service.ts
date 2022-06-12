@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { DialogAction, DialogService, DialogRef, DialogCloseResult } from "@progress/kendo-angular-dialog";
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, mapTo, switchMap } from 'rxjs/operators';
 import { ApiModule } from '../api/api.generated';
 
 import { AddItemModalComponent } from '../components/modals/add-item-modal/add-item-modal.component';
 import { CategorizeModalComponent } from '../components/modals/categorize-modal/categorize-modal.component';
 import { EditFieldOptionsModalComponent } from '../components/modals/edit-field-options-modal/edit-field-options-modal.component';
+import { MultiCreationModalComponent } from '../components/modals/multi-creation-modal/multi-creation-modal.component';
 import { TrainModalComponent } from '../components/modals/train-modal/train-modal.component';
 import { TrainItem } from '../models/inputs/TrainItem';
 
 @Injectable()
 export class ModalService {
 	constructor(private dialogService: DialogService,
+		private entityClient: ApiModule.EntityClient,
 		private fieldOptionCollectionClient: ApiModule.FieldOptionCollectionClient,
 		private categoryClient: ApiModule.CategoryClient,
 		private modelClient: ApiModule.ModelClient)
@@ -119,6 +121,28 @@ export class ModalService {
 		return dialog.result.pipe(
 			filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === 'Select'),
 			switchMap(_ => of(instanse.modelId))
+		);
+	}
+
+	public showMultiCreationModal(templateId: string, categoryId: string = null): Observable<void>
+	{
+		const dialog: DialogRef = this.dialogService.open({
+			title: `Multiple creation`,
+			content: MultiCreationModalComponent,
+			actions: [{ text: 'Cancel' }, { text: 'Create', themeColor: 'primary' }]
+		});
+		
+		const instanse = dialog.content.instance as MultiCreationModalComponent;
+		instanse.templateId = templateId;
+		if (categoryId)
+			instanse.categoryId = categoryId;
+
+		return dialog.result.pipe(
+			filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === 'Create'),
+			map(_ => <File>dialog.content.instance.files[0]),
+			switchMap(file => !instanse.categoryId ?
+				this.entityClient.importEntities(templateId, <ApiModule.FileParameter> { data: file, fileName: file.name }) :
+				this.entityClient.importEntitiesInCategory(templateId, categoryId, <ApiModule.FileParameter> { data: file, fileName: file.name }))
 		);
 	}
 }

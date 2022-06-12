@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YLists.BL.Contracts;
 using YLists.BL.ViewModels;
+using YLists.Web.Extensions;
 
 namespace YLists.Web.Controllers
 {
@@ -48,6 +49,13 @@ namespace YLists.Web.Controllers
         public void Delete(Guid id)
         {
             _entityTemplateDataService.Delete(id);
+        }
+
+        [HttpPost]
+        [Route("GenerateMultiCreationTemplate")]
+        public FileResult GenerateMultiCreationTemplate(Guid entityTemplateId)
+        {
+            return this.File(stream => _entityTemplateDataService.GenerateMultiCreationTemplate(entityTemplateId, stream), "Template.xlsx");
         }
     }
 }

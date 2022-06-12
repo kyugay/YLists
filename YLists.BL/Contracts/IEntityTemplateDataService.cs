@@ -5,5 +5,6 @@ namespace YLists.BL.Contracts
 {
     public interface IEntityTemplateDataService : IDataService<EntityTemplate, EntityTemplateViewModel>
     {
+        void GenerateMultiCreationTemplate(Guid entityTemplateId, Stream output);
     }
 }
