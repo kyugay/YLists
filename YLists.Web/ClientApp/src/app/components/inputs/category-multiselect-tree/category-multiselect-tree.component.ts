@@ -15,6 +15,8 @@ import { ApiModule } from 'src/app/api/api.generated';
 export class CategoryMultiselectTreeComponent implements OnInit
 {
     @Input() public templateId: string;
+    @Input() public isSingle: boolean = false;
+    @Input() public isEditable: boolean = true;
 
 	public items: ApiModule.CategoryViewModel[] = [];
 
@@ -50,7 +52,13 @@ export class CategoryMultiselectTreeComponent implements OnInit
 
     public onValueChange(event: ApiModule.CategoryViewModel[])
     {
-        this.valueChange.emit(event);
+        if (this.isSingle)
+        {
+            this.value = event.slice(-1);
+            this.valueChange.emit(this.value);
+        }
+        else
+            this.valueChange.emit(event);
     }
 
 	public showAddCategoryModal(parentId: string = null): void

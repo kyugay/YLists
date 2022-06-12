@@ -68,9 +68,9 @@ namespace YLists.Web.Controllers
 
         [HttpPost]
         [Route("Categorize")]
-        public async Task Categorize(Guid modelId, Guid entityId)
+        public async Task Categorize(Guid modelId, Guid entityId, Guid? destinationCategoryId)
         {
-            await _categorizationService.CategorizeAsync(modelId, new[] { entityId });
+            await _categorizationService.CategorizeAsync(modelId, new[] { entityId }, destinationCategoryId);
         }
 
         [HttpPost]

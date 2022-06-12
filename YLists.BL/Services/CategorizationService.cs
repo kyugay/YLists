@@ -79,7 +79,7 @@ namespace YLists.BL.Services
             return model;
         }
 
-        public async Task CategorizeAsync(Guid modelId, Guid[] entitiesId)
+        public async Task CategorizeAsync(Guid modelId, Guid[] entitiesId, Guid? destinationCategoryId = null)
         {
             var currentUser = _accountService.GetCurrentUserAsync().Result;
 
@@ -94,7 +94,7 @@ namespace YLists.BL.Services
             var newCategorizeItems = await _categorizationClient.CategorizeAsync(model.EntityTemplateId.ToString(), model.Language, model.Timestamp, categorizeItems);
 
             var newCategoryNames = newCategorizeItems.Select(ci => ci.Category).ToArray();
-            var categories = _context.Categories.Where(c => newCategoryNames.Contains(c.Name)).ToList();
+            var categories = _context.Categories.Where(c => c.EntityTemplateId == model.EntityTemplateId && newCategoryNames.Contains(c.Name)).ToList();
 
             newCategoryNames
                 .Where(name => !categories.Any(c => c.Name == name))
@@ -107,6 +107,8 @@ namespace YLists.BL.Services
                         EntityTemplateId = model.EntityTemplateId,
                         OwnerId = currentUser.Id
                     };
+                    if (destinationCategoryId.HasValue)
+                        category.ParentId = destinationCategoryId.Value;
 
                     _context.Categories.Add(category);
                     categories.Add(category);

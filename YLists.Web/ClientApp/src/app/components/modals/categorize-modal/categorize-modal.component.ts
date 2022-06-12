@@ -13,8 +13,11 @@ import { Item } from 'src/app/models/inputs/item';
 export class CategorizeModalComponent implements OnInit {
     public templateId: string;
     public modelId: string;
+    public currentCategory: ApiModule.CategoryViewModel;
 
     public models$: Observable<Item[]> = of([]);
+
+    public destinationCategory: ApiModule.CategoryViewModel[] = [];
 
 	constructor(private modelClient: ApiModule.ModelClient) { }
 
@@ -24,5 +27,10 @@ export class CategorizeModalComponent implements OnInit {
                 models.filter(m => m.entityTemplateId === this.templateId)
                     .map(m => <Item> { text: m.name, value: m.id })
             ));
+
+        if (this.currentCategory)
+        {
+            this.destinationCategory.push(this.currentCategory);
+        }
     }
 }

@@ -3018,7 +3018,7 @@ export class ModelClient {
         return _observableOf<void>(null as any);
     }
 
-    categorize(modelId: string | undefined, entityId: string | undefined): Observable<void> {
+    categorize(modelId: string | undefined, entityId: string | undefined, destinationCategoryId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/Model/Categorize?";
         if (modelId === null)
             throw new Error("The parameter 'modelId' cannot be null.");
@@ -3028,6 +3028,8 @@ export class ModelClient {
             throw new Error("The parameter 'entityId' cannot be null.");
         else if (entityId !== undefined)
             url_ += "entityId=" + encodeURIComponent("" + entityId) + "&";
+        if (destinationCategoryId !== undefined && destinationCategoryId !== null)
+            url_ += "destinationCategoryId=" + encodeURIComponent("" + destinationCategoryId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {

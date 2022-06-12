@@ -107,7 +107,7 @@ export class ModalService {
 		);
 	}
 
-	public showGetModelModal(templateId: string): Observable<string>
+	public showGetModelModal(templateId: string, category: ApiModule.CategoryViewModel, entityId: string): Observable<void>
 	{
 		const dialog: DialogRef = this.dialogService.open({
 			title: `Select model`,
@@ -117,10 +117,11 @@ export class ModalService {
 		
 		const instanse = dialog.content.instance as CategorizeModalComponent;
 		instanse.templateId = templateId;
+		instanse.currentCategory = category;
 
 		return dialog.result.pipe(
 			filter(result => !(result instanceof DialogCloseResult) && (result as DialogAction).text === 'Select'),
-			switchMap(_ => of(instanse.modelId))
+			switchMap(_ => this.modelClient.categorize(dialog.content.instance.modelId, entityId, dialog.content.instance.destinationCategory[0]?.id))
 		);
 	}
 

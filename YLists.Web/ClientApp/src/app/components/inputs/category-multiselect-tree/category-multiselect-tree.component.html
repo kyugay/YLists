@@ -14,14 +14,14 @@
 	class="w-100"
 >
 	<ng-template kendoMultiSelectTreeHeaderTemplate>
-		<button kendoButton (click)="showAddCategoryModal()" icon="plus-outline">Add</button>
+		<button *ngIf="isEditable" kendoButton (click)="showAddCategoryModal()" icon="plus-outline">Add</button>
 	</ng-template>
 	<ng-template kendoMultiSelectTreeNodeTemplate let-dataItem>
 		<div class="multiselect-tree-item w-100">
 			<span>{{ dataItem.name }}</span>
 			<div class="item-actions">
-				<button kendoButton (click)="showAddCategoryModal(dataItem.id)" icon="plus-outline" look="outline"></button>
-				<button kendoButton (click)="showDeleteCategoryModal(dataItem.id)" icon="delete" look="outline"></button>
+				<button *ngIf="isEditable" kendoButton (click)="showAddCategoryModal(dataItem.id)" icon="plus-outline" look="outline"></button>
+				<button *ngIf="isEditable" kendoButton (click)="showDeleteCategoryModal(dataItem.id)" icon="delete" look="outline"></button>
 			</div>
 		</div>
 	</ng-template>
